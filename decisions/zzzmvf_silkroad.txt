@@ -1,0 +1,142 @@
+decisions = {
+	proclaim_sogdiana = {
+		only_independent = yes
+		is_high_prio = yes
+		potential = {
+			culture = tocharian
+			#k_sogdiana = {
+			#	has_holder = no
+			#}
+			NOT = { has_global_flag = VIET_sogdiana_proclaimed }
+		}
+		allow = {
+			independent = yes
+			has_landed_title = e_serindia
+			AND = {
+				completely_controls = d_chach
+				completely_controls = d_khwarizmian 
+				completely_controls = d_merv
+				completely_controls = d_marakanda
+				completely_controls = d_kokand
+			}
+			piety = 100
+			prestige = 300
+		}
+		effect = {
+			set_global_flag = VIET_sogdiana_proclaimed
+			hidden_tooltip = {
+				character_event = { 
+					id = silkroad.6
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
+	support_silk_road = {
+		only_playable = yes
+		is_high_prio = yes
+		potential = {
+			#NOT = { religion_group = muslim }
+			NOT = { has_global_flag = sogdian_merchants_supported }
+			OR = { 
+				tier = emperor
+				tier = king
+			}
+			NOT = { has_global_flag = silk_road_level_3 }
+			NOT = { has_global_flag = silk_road_level_0 }
+			capital_scope = {
+				OR = {
+					kingdom = { title = k_kashmir }
+					kingdom = { title = k_sindhia }
+					kingdom = { title = k_khazaria }
+					kingdom = { title = k_alania }
+					empire = { title = e_serindia }
+					empire = { title = e_sassanid }
+					kingdom = { title = k_mesopotamia }
+					kingdom = { title = k_palmyra }
+					kingdom = { title = k_delhi }
+					kingdom = { title = k_bengal }
+					kingdom = { title = k_magadha }
+					county = { title = c_antiocheia }
+					county = { title = c_aleppo }
+					county = { title = c_azov }
+					county = { title = c_aden }
+					county = { title = c_pranala }
+					county = { title = c_kochi }
+					duchy = { title = d_khajuraho }
+					duchy = { title = d_vengi }
+					duchy = { title = d_oman }
+				}
+			} #change for SWMH
+		}
+		allow = {
+			independent = yes
+			realm_size = 80
+			OR = {
+				has_landed_title = k_kashmir
+				has_landed_title = k_sindhia
+				has_landed_title = k_khazaria
+				has_landed_title = k_alania
+				has_landed_title = e_sassanid
+				has_landed_title = e_serindia
+				has_landed_title = e_india
+				has_landed_title = k_mesopotamia
+				has_landed_title = k_delhi
+				has_landed_title = k_bengal
+				has_landed_title = k_alania
+				has_landed_title = k_magadha
+				has_landed_title = k_tarim
+				has_landed_title = k_kokand
+				has_landed_title = k_khwarezm
+				has_landed_title = k_media
+				has_landed_title = k_taurica
+				has_landed_title = k_syria
+				trait = sartapaw
+				culture = tocharian
+			}
+			#OR = {
+			#	NOT = { religion_group = pagan_group }
+			#	religion = zun_pagan
+			#	religion = zun_pagan_reformed
+			#	culture = sogdian
+			#	culture = mongol
+			#	custom_tooltip = {
+			#		text = TT_NOT_UNREFORMED_PAGAN
+			#		hidden_tooltip = {
+			#			ancestral_religion_trigger = no
+			#		}
+			#	}
+			#}
+			prestige = 250
+			scaled_wealth = 0.5
+		}
+		effect = {
+			set_global_flag = sogdian_merchants_supported
+			scaled_wealth = -0.5
+			hidden_tooltip = {
+				narrative_event = { 
+					id = silkroad.8
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0.01
+			}
+			modifier = {
+				factor = 0
+				OR = {
+					trait = content
+					trait = slothful
+					trait = arbitrary
+					trait = imbecile
+					trait = slow
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,10 @@
+spriteTypes = {
+	spriteType = {
+		name = "GFX_proclaim_sogdiana"
+		texturefile = "gfx\\interface\\decision_icon_proclaim_sogdiana.tga"
+	}
+	spriteType = {
+		name = "GFX_support_silk_road"
+		texturefile = "gfx\\interface\\decision_icon_support_silk_road.tga"
+	}
+}

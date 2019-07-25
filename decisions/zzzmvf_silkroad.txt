@@ -23,6 +23,30 @@ decisions = {
 			prestige = 300
 		}
 		effect = {
+			if = {
+				limit = {
+					is_female = yes
+					has_dlc = "Holy Fury"
+				}
+				create_bloodline = {
+					type = serindia_female
+				}
+				new_bloodline = {
+					set_description = "serindia_female_desc"
+				}
+			}
+			if = {
+				limit = {
+					is_female = no
+					has_dlc = "Holy Fury"
+				}
+				create_bloodline = {
+					type = serindia_male
+				}
+				new_bloodline = {
+					set_description = "serindia_male_desc"
+				}
+			}
 			set_global_flag = VIET_sogdiana_proclaimed
 			hidden_tooltip = {
 				character_event = { 

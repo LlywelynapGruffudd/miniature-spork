@@ -177,7 +177,7 @@ character_event = {
 		#		copy_title_laws = PREV
 		#	}
 		#}
-		give_nickname = nick_the_liberator
+		#give_nickname = nick_the_liberator
 		#if = {
 		#	limit = {
 		#		NOT = { has_landed_title = sogdiana }
@@ -383,7 +383,7 @@ narrative_event = {
 # 210 - Crimean Goths
 # 211 - Parsis # Removed
 # 212 - Assyrians
-# 213 - Copts
+# 213 - Phoenician
 # 214 - Japanese # Removed
 # 215 - Vietnamese
 # 217 - Korean # Removed
@@ -397,10 +397,10 @@ narrative_event = {
 # 225 - Tocharian (Buddhist) # Removed
 # 226 - Tocharian (Manichean) # Removed
 # 227 - Ryukyuan (Buddhist) # Removed
-# 228 - Xiongnu (Buddhist)
+# 228 - Xiongnu 
 # 229 - Mongol (Tengri, Buddhist, Nestorian, Manichean, Sunni) # Removed
 # 230 - Aramean (Monothelite)
-# 231 - Avar (Tengri)
+# 231 - Avar 
 # 
 ################################################
 #Turkish
@@ -2946,7 +2946,7 @@ character_event = {
 		capital_scope = {
 			OR = {
 				kingdom = { title = k_syria }
-				kingdom = { title = k_palmyra } #not in WtWSMS
+				kingdom = { title = k_palmyra }
 				kingdom = { title = k_judea }
 				kingdom = { title = k_armenia }
 				empire = { title = e_arabia }
@@ -3438,4 +3438,4673 @@ character_event = {
 		name = "reject.VIET.courtiers"
 	}
 	
+}
+
+#########################################################################
+# SOGDIAN FAIR EVENTS
+#########################################################################
+
+# Setup
+character_event = {
+	id = silkroad.400
+	
+	hide_window = yes
+	
+	is_triggered_only = yes
+	
+	immediate = { #ok
+		set_character_flag = VIET_sogdian_fair
+		if = { 
+			limit = {
+				capital_scope = {
+					OR = {
+						culture = tocharian
+						has_province_modifier = VIET_sogdian_colony
+					}
+				}
+			}
+			capital_scope = {
+				save_event_target_as = VIET_sogdian_fair_location
+			}
+		}
+		if = {
+			limit = {
+				NOT = {
+					capital_scope = {
+						OR = {
+							culture = tocharian
+							has_province_modifier = VIET_sogdian_colony
+						}
+					}
+				}
+				any_demesne_province = {
+					OR = {
+						culture = tocharian
+						has_province_modifier = VIET_sogdian_colony
+					}
+				}
+			}
+			random_demesne_province = {
+				limit = {
+					OR = {
+						culture = tocharian
+						has_province_modifier = VIET_sogdian_colony
+					}
+				}
+				save_event_target_as = VIET_sogdian_fair_location
+			}
+		}
+		if = { #only if Sogdian culture
+			limit = {
+				NOT = {
+					capital_scope = {
+						OR = {
+							culture = tocharian
+							has_province_modifier = VIET_sogdian_colony
+						}
+					}
+				}
+				NOT = {
+					any_demesne_province = {
+						OR = {
+							culture = tocharian
+							has_province_modifier = VIET_sogdian_colony
+						}
+					}
+				}
+			}
+			capital_scope = {
+				save_event_target_as = VIET_sogdian_fair_location
+			}
+		}
+		narrative_event = { id = silkroad.401 }
+	}
+}
+
+# Choose a fair type
+narrative_event = {
+	id = silkroad.401
+	title = silkroad.401.title
+	desc = silkroad.401.desc
+	picture = GFX_evt_travel_arabic
+	
+	is_triggered_only = yes
+	
+	option = { #normal fair
+		name = "silkroad.401.a"
+		set_character_flag = VIET_hosting_sogdian_fair_normal
+		character_event = { id = silkroad.402 days = 60 tooltip = silkroad.402.tooltip }
+		wealth = -50
+	}
+	option = { #max fair
+		name = "silkroad.401.b"
+		trigger = {
+			NOT = { has_character_flag = VIET_already_sogdian_fair_max }
+		}
+		set_character_flag = VIET_hosting_sogdian_fair_max
+		character_event = { id = silkroad.402 days = 60 tooltip = silkroad.402.tooltip }
+		wealth = -50
+		if = {
+			limit = {
+				trait = zealous
+			}
+			random = {
+				remove_trait = zealous
+				chance = 40
+			}
+		}
+	}
+	option = { #tirmah fair
+		name = "silkroad.401.c"
+		trigger = {
+			NOT = { has_character_flag = VIET_already_sogdian_fair_tirmah }
+		}
+		set_character_flag = VIET_hosting_sogdian_fair_tirmah
+		character_event = { id = silkroad.402 days = 60 tooltip = silkroad.402.tooltip }
+		wealth = -50
+		if = {
+			limit = {
+				trait = honest
+			}
+			random = {
+				remove_trait = honest
+				chance = 20
+			}
+		}
+	}
+	option = { #M’xyrh fair
+		name = "silkroad.401.d"
+		trigger = {
+			NOT = { has_character_flag = VIET_already_sogdian_fair_mxyrh }
+		}
+		set_character_flag = VIET_hosting_sogdian_fair_mxyrh
+		character_event = { id = silkroad.402 days = 60 tooltip = silkroad.402.tooltip }
+		wealth = -50
+		if = {
+			limit = {
+				trait = honest
+			}
+			random = {
+				remove_trait = honest
+				chance = 20
+			}
+		}
+	}
+}
+
+# war check
+character_event = {
+	id = silkroad.402
+	
+	hide_window = yes
+	
+	is_triggered_only = yes
+	
+	immediate = {
+		if = {
+			limit = {
+				war = yes
+			}
+			character_event = { id = silkroad.403 }
+		}
+		if = {
+			limit = {
+				war = no
+			}
+			character_event = { id = silkroad.404 }
+		}
+	}
+}
+
+# yes war, must cancel
+character_event = {
+	id = silkroad.403
+	desc = silkroad.403.desc
+	picture = GFX_evt_tuscan_country_altaic
+	
+	is_triggered_only = yes
+	
+	option = { #Booo
+		name = "silkroad.403.a"
+		wealth = 50
+		clr_character_flag = VIET_hosting_sogdian_fair_normal
+		clr_character_flag = VIET_hosting_sogdian_fair_max
+		clr_character_flag = VIET_hosting_sogdian_fair_tirmah
+		clr_character_flag = VIET_hosting_sogdian_fair_mxyrh
+		clr_character_flag = VIET_sogdian_fair
+		event_target:VIET_sogdian_fair_location = { #Is this how we clear it???
+			clear_event_target = VIET_sogdian_fair_location
+		}
+	}
+}
+
+# no war, let the fair begin!
+character_event = {
+	id = silkroad.404
+	desc = silkroad.404.desc
+	picture = GFX_evt_silk_road
+	
+	is_triggered_only = yes
+	
+	option = { #yay
+		name = "silkroad.404.a"
+		if = {
+			limit = {
+				has_character_flag = VIET_hosting_sogdian_fair_normal
+			}
+			event_target:VIET_sogdian_fair_location = {
+				add_province_modifier = {
+					name = VIET_location_sogdian_fair_normal
+					duration = -1
+				}
+			}
+		}
+		if = {
+			limit = {
+				has_character_flag = VIET_hosting_sogdian_fair_max
+			}
+			event_target:VIET_sogdian_fair_location = {
+				add_province_modifier = {
+					name = VIET_location_sogdian_fair_max
+					duration = -1
+				}
+			}
+			hidden_tooltip = {
+				random_list = {
+				#	10 = { character_event = { id = silkroad.421 days = 5 random = 20 } }
+					10 = { character_event = { id = silkroad.422 days = 5 random = 20 } }
+					10 = { character_event = { id = silkroad.423 days = 5 random = 20 } }
+					10 = { character_event = { id = silkroad.424 days = 5 random = 20 } }
+					10 = { character_event = { id = silkroad.425 days = 5 random = 20 } }
+					10 = { character_event = { id = silkroad.426 days = 5 random = 20 } }
+					10 = { character_event = { id = silkroad.427 days = 5 random = 20 } }
+					10 = { character_event = { id = silkroad.456 days = 5 random = 20 } }
+				}
+			}
+		}
+		if = {
+			limit = {
+				has_character_flag = VIET_hosting_sogdian_fair_tirmah
+			}
+			event_target:VIET_sogdian_fair_location = {
+				add_province_modifier = {
+					name = VIET_location_sogdian_fair_tirmah
+					duration = -1
+				}
+			}
+			hidden_tooltip = {
+				random_list = {
+					10 = { character_event = { id = silkroad.428 days = 5 random = 20 } }
+					10 = { character_event = { id = silkroad.429 days = 5 random = 20 } }
+					10 = { character_event = { id = silkroad.430 days = 5 random = 20 } }
+				}
+				if = {
+					limit = {
+						any_courtier = {
+							is_adult = yes
+							NOT = { trait = incapable }
+						}
+					}
+					random_courtier = {
+						character_event = { id = silkroad.431 days = 5 random = 20 }
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				has_character_flag = VIET_hosting_sogdian_fair_mxyrh
+			}
+			event_target:VIET_sogdian_fair_location = {
+				add_province_modifier = {
+					name = VIET_location_sogdian_fair_mxyrh
+					duration = -1
+				}
+			}
+			hidden_tooltip = {
+				random_list = {
+					10 = { character_event = { id = silkroad.432 days = 5 random = 20 } }
+					10 = { character_event = { id = silkroad.434 days = 5 random = 20 } }
+					10 = { character_event = { id = silkroad.435 days = 5 random = 20 } }
+				}
+			}
+		}
+		hidden_tooltip = {
+			character_event = { id = silkroad.405 days = 31 }
+			#Normal events
+			random_list = {
+				20 = { character_event = { id = silkroad.406 days = 5 random = 20 } }
+				20 = { character_event = { id = silkroad.407 days = 5 random = 20 } }
+				20 = { character_event = { id = silkroad.408 days = 5 random = 20 } }
+				20 = { character_event = { id = silkroad.409 days = 5 random = 20 } }
+				20 = { character_event = { id = silkroad.410 days = 5 random = 20 } }
+				20 = { character_event = { id = silkroad.413 days = 5 random = 20 } }
+				5 = { character_event = { id = silkroad.414 days = 5 random = 20 } }
+				75 = { }
+			}
+			#Concubine
+			if = {
+				limit = {
+					has_character_flag = VIET_sogdian_fair_bought_slave_concubine
+				}
+				random_list = {
+					5 = { character_event = { id = silkroad.411 days = 5 random = 20 } }
+					95 = { }
+				}
+			}
+			if = {
+				limit = {
+					NOT = { has_character_flag = VIET_sogdian_fair_bought_slave_concubine }
+				}
+				random_list = {
+					20 = { character_event = { id = silkroad.411 days = 5 random = 20 } }
+					80 = { }
+				}
+			}
+			#Food
+			character_event = { id = silkroad.415 days = 5 random = 20 }
+			#Sartapaws
+			if = {
+				limit = {
+					trait = sartapaw
+				}
+				random_list = {
+					15 = { character_event = { id = silkroad.417 days = 5 random = 20 } }
+					15 = { character_event = { id = silkroad.418 days = 5 random = 20 } }
+					15 = { character_event = { id = silkroad.419 days = 5 random = 20 } }
+					15 = { character_event = { id = silkroad.420 days = 5 random = 20 } }
+					40 = { }
+				}
+			}
+			#Ethnic/culture-related events
+			random_list = {
+				10 = { character_event = { id = silkroad.436 days = 5 random = 20 } }
+				10 = { character_event = { id = silkroad.437 days = 5 random = 20 } }
+				10 = { character_event = { id = silkroad.438 days = 5 random = 20 } }
+				10 = { character_event = { id = silkroad.439 days = 5 random = 20 } }
+				10 = { character_event = { id = silkroad.440 days = 5 random = 20 } }
+				10 = { character_event = { id = silkroad.441 days = 5 random = 20 } }
+				10 = { character_event = { id = silkroad.442 days = 5 random = 20 } }
+				10 = { character_event = { id = silkroad.443 days = 5 random = 20 } }
+				10 = { character_event = { id = silkroad.444 days = 5 random = 20 } }
+				10 = { character_event = { id = silkroad.445 days = 5 random = 20 } }
+				10 = { character_event = { id = silkroad.446 days = 5 random = 20 } }
+				10 = { character_event = { id = silkroad.447 days = 5 random = 20 } }
+				10 = { character_event = { id = silkroad.448 days = 5 random = 20 } }
+				10 = { character_event = { id = silkroad.449 days = 5 random = 20 } }
+				10 = { character_event = { id = silkroad.450 days = 5 random = 20 } }
+				10 = { character_event = { id = silkroad.451 days = 5 random = 20 } }
+				10 = { character_event = { id = silkroad.452 days = 5 random = 20 } }
+				10 = { character_event = { id = silkroad.453 days = 5 random = 20 } }
+				10 = { character_event = { id = silkroad.454 days = 5 random = 20 } }
+				10 = { character_event = { id = silkroad.455 days = 5 random = 20 } }
+				30 = { }
+			}
+		}
+	}
+}
+
+# fair ends
+character_event = {
+	id = silkroad.405
+	desc = silkroad.405.desc
+	picture = GFX_evt_tuscan_country_altaic
+	
+	is_triggered_only = yes
+	
+	option = { #yay
+		name = "silkroad.405.a"
+		clr_character_flag = VIET_sogdian_fair
+		clr_character_flag = do_not_disturb
+		if = {
+			limit = {
+				has_character_flag = VIET_hosting_sogdian_fair_normal
+			}
+			prestige = 40
+			clr_character_flag = VIET_hosting_sogdian_fair_normal
+			event_target:VIET_sogdian_fair_location = {
+				remove_province_modifier = VIET_location_sogdian_fair_normal
+				clear_event_target = VIET_sogdian_fair_location
+			}
+		}
+		if = {
+			limit = {
+				has_character_flag = VIET_hosting_sogdian_fair_max
+			}
+			prestige = 30
+			piety = 20
+			clr_character_flag = VIET_hosting_sogdian_fair_max
+			set_character_flag = VIET_already_sogdian_fair_max
+			event_target:VIET_sogdian_fair_location = {
+				remove_province_modifier = VIET_location_sogdian_fair_max
+				clear_event_target = VIET_sogdian_fair_location
+			}
+		}
+		if = {
+			limit = {
+				has_character_flag = VIET_hosting_sogdian_fair_tirmah
+			}
+			prestige = 20
+			piety = 30
+			clr_character_flag = VIET_hosting_sogdian_fair_tirmah
+			set_character_flag = VIET_already_sogdian_fair_tirmah
+			event_target:VIET_sogdian_fair_location = {
+				remove_province_modifier = VIET_location_sogdian_fair_tirmah
+				clear_event_target = VIET_sogdian_fair_location
+			}
+		}
+		if = {
+			limit = {
+				has_character_flag = VIET_hosting_sogdian_fair_mxyrh
+			}
+			prestige = 25
+			piety = 25
+			clr_character_flag = VIET_hosting_sogdian_fair_mxyrh
+			set_character_flag = VIET_already_sogdian_fair_mxyrh
+			event_target:VIET_sogdian_fair_location = {
+				remove_province_modifier = VIET_location_sogdian_fair_mxyrh
+				clear_event_target = VIET_sogdian_fair_location
+			}
+		}
+		add_character_modifier = {
+			name = VIET_hosted_sogdian_fair
+			duration = 730
+		}
+		add_character_modifier = {
+			name = VIET_sogdian_fair_timer
+			duration = 1
+			hidden = yes
+			#supposed to be longer
+		}
+	}
+}
+
+
+### SOGDIAN FAIR EVENTS BASIC ###
+
+
+# different faiths gather
+character_event = {
+	id = silkroad.406
+	desc = silkroad.406.desc
+	picture = GFX_evt_silk_road
+	
+	is_triggered_only = yes
+	
+	option = { #talk
+		name = "silkroad.406.a"
+		random_list = {
+			15 = { change_diplomacy = 1 }
+			15 = { change_intrigue = 1 }
+			70 = { }
+		}
+		prestige = 3
+	}	
+	option = { #debate
+		name = "silkroad.406.b"
+		random = {
+			change_learning = 1
+			chance = 30
+		}
+		piety = 3
+	}
+}
+
+# religious debate
+character_event = {
+	id = silkroad.407
+	desc = silkroad.407.desc
+	picture = GFX_evt_silk_road
+	
+	is_triggered_only = yes
+	
+	option = { #observe
+		name = "silkroad.407.a"
+		random = {
+			change_learning = 1
+			chance = 30
+		}
+	}	
+	option = { #cheer on a side
+		name = "silkroad.407.b"
+		random = {
+			add_trait = zealous
+			chance = 33
+		}
+		piety = 5
+	}	
+	option = { #resolve dispute
+		name = "silkroad.407.c"
+		if = {
+			limit = {
+				NOT = { trait = sympathy_indian }
+				NOT = { trait = sympathy_judaism }
+				NOT = { trait = sympathy_zoroastrianism }
+				NOT = { trait = sympathy_pagans }
+				NOT = { trait = sympathy_islam }
+				NOT = { trait = sympathy_christendom }
+			}
+			random_list = {
+				10 = {
+					add_trait = sympathy_indian
+					modifier = {
+						factor = 0
+						religion_group = indian_group
+					}
+				}
+				10 = {
+					add_trait = sympathy_judaism
+					modifier = {
+						factor = 0
+						religion_group = jewish_group
+					}
+				}
+				10 = {
+					add_trait = sympathy_zoroastrianism 
+					modifier = {
+						factor = 0
+						religion_group = zoroastrian_group
+					}
+				}
+				10 = {
+					add_trait = sympathy_pagans 
+					modifier = {
+						factor = 0
+						religion_group = pagan_group
+					}
+				}
+				10 = {
+					add_trait = sympathy_islam  
+					modifier = {
+						factor = 0
+						religion_group = muslim
+					}
+				}
+				10 = {
+					add_trait = sympathy_christendom  
+					modifier = {
+						factor = 0
+						religion_group = christian
+					}
+				}
+				150 = { }
+			}
+		}
+		prestige = 5
+		random = {
+			change_diplomacy = 1
+			chance = 20
+		}
+		random_list = {
+			5 = { add_trait = patient }
+			5 = { add_trait = just }
+			90 = { }
+		}
+	}	
+	option = { #be tolerant in the fair of max
+		name = "silkroad.407.d"
+		trigger = {
+			has_character_flag = VIET_hosting_sogdian_fair_max
+		}
+		if = {
+			limit = {
+				NOT = { trait = sympathy_indian }
+				NOT = { trait = sympathy_judaism }
+				NOT = { trait = sympathy_zoroastrianism }
+				NOT = { trait = sympathy_pagans }
+				NOT = { trait = sympathy_islam }
+				NOT = { trait = sympathy_christendom }
+			}
+			random_list = {
+				10 = {
+					add_trait = sympathy_indian
+					modifier = {
+						factor = 0
+						religion_group = indian_group
+					}
+				}
+				10 = {
+					add_trait = sympathy_judaism
+					modifier = {
+						factor = 0
+						religion_group = jewish_group
+					}
+				}
+				10 = {
+					add_trait = sympathy_zoroastrianism 
+					modifier = {
+						factor = 0
+						religion_group = zoroastrian_group
+					}
+				}
+				10 = {
+					add_trait = sympathy_pagans 
+					modifier = {
+						factor = 0
+						religion_group = pagan_group
+					}
+				}
+				10 = {
+					add_trait = sympathy_islam  
+					modifier = {
+						factor = 0
+						religion_group = muslim
+					}
+				}
+				10 = {
+					add_trait = sympathy_christendom  
+					modifier = {
+						factor = 0
+						religion_group = christian
+					}
+				}
+				150 = { }
+			}
+		}
+		prestige = 5
+		random = {
+			change_diplomacy = 1
+			chance = 20
+		}
+		random_list = {
+			15 = { add_trait = patient }
+			15 = { add_trait = just }
+			70 = { }
+		}
+	}
+}
+
+
+# silk purchase
+character_event = {
+	id = silkroad.408
+	desc = silkroad.408.desc
+	picture = GFX_evt_market
+	
+	is_triggered_only = yes
+	
+	option = { #donate
+		name = "silkroad.408.a"
+		piety = 15
+		wealth = -10
+	}	
+	option = { #nice clothes
+		name = "silkroad.408.b"
+		add_character_modifier = {
+			name = VIET_sogdian_fair_silk
+			duration = 1453
+		}
+		prestige = 10
+		wealth = -10
+	}	
+	option = { #give it to spouse
+		name = "silkroad.408.c"
+		trigger = {
+			is_married = yes
+		}
+		spouse = {
+			opinion = {
+				modifier = VIET_opinion_great_gift
+				who = ROOT
+				years = 2
+			}
+			add_character_modifier = {
+				name = VIET_sogdian_fair_silk
+				duration = 1453
+			}			
+		}
+		wealth = -10
+	}	
+	option = { #give it to someone else
+		name = "silkroad.408.d"
+		random_courtier = {
+			opinion = {
+				modifier = VIET_opinion_great_gift
+				who = ROOT
+				years = 2
+			}
+			add_character_modifier = {
+				name = VIET_sogdian_fair_silk
+				duration = 1453
+			}			
+		}
+		wealth = -10
+	}		
+}
+
+# misc purchase
+character_event = {
+	id = silkroad.409
+	desc = silkroad.409.desc
+	picture = GFX_evt_silk_road
+	
+	is_triggered_only = yes
+	
+	option = { #donate
+		name = "silkroad.409.a"
+		wealth = -5
+		add_character_modifier = {
+			name = VIET_sogdian_fair_spices
+			duration = 365
+		}
+	}	
+	option = { #donate
+		name = "silkroad.409.b"
+		wealth = -5
+		add_character_modifier = {
+			name = VIET_sogdian_fair_lacquer
+			duration = 365
+		}
+	}	
+	option = { #donate
+		name = "silkroad.409.c"
+		wealth = -5
+		add_character_modifier = {
+			name = VIET_sogdian_fair_incense
+			duration = 365
+		}
+	}	
+	option = { #donate
+		name = "silkroad.409.d"
+		wealth = -5
+		add_character_modifier = {
+			name = VIET_sogdian_fair_horse_normal
+			duration = 365
+		}
+	}	
+}
+
+# chinese and sogdian merchant dispute
+character_event = {
+	id = silkroad.410
+	desc = silkroad.410.desc
+	picture = GFX_evt_emissary
+	
+	is_triggered_only = yes
+	
+	option = { #support chinese
+		name = "silkroad.410.a"
+		prestige = 5
+		random = {
+			add_trait = just
+			chance = 5
+		}
+		custom_tooltip = { text = VIET_sogdian_merchant_dispute_chinese }
+	}	
+	option = { #support sogdian
+		name = "silkroad.410.b"
+		prestige = 5
+		random = {
+			add_trait = just
+			chance = 5
+		}
+		custom_tooltip = { text = VIET_sogdian_merchant_dispute_sogdian }
+	}		
+	option = { #support neither
+		name = "silkroad.410.c"
+		random_list = {
+			60 = { }
+			20 = { add_trait = slothful }
+			20 = { add_trait = content }
+		}
+		custom_tooltip = { text = VIET_sogdian_merchant_dispute_neither }
+	}		
+	option = { #support tirmah
+		name = "silkroad.410.d"
+		prestige = 5
+		custom_tooltip = { text = VIET_sogdian_merchant_dispute_tirmah }
+	}	
+}
+
+# concubinage
+character_event = {
+	id = silkroad.411
+	desc = silkroad.411.desc
+	picture = GFX_evt_maiden
+	
+	is_triggered_only = yes
+	
+	option = { # for me
+		name = "silkroad.411.a"
+		trigger = {
+			is_female = no
+			OR = {
+				AND = {
+					has_concubinage = yes
+					NOT = { num_of_consorts = 3 }
+				}
+				AND = {
+					has_polygamy = yes
+					NOT = { num_of_spouses = 3 }
+				}
+				is_married = no
+			}
+		}
+		ai_chance = { factor = 20 }
+		set_character_flag = VIET_sogdian_fair_bought_slave_concubine
+		wealth = -10
+		prestige = 25
+		if = {
+			limit = {
+				has_concubinage = yes
+			}
+			random_list = {
+				10 = {
+					create_character = {
+						female = yes
+						random_traits = yes
+						dynasty = culture
+						religion = buddhist
+						culture = tocharian
+					}
+					new_character = {
+						add_consort = ROOT
+						# Her traits aren't that random (they had to choose someone worthwhile for the whole bear hunt thingy, after all)
+						random = {
+							chance = 33
+							add_trait = fair
+						}
+						random = {
+							chance = 10
+							add_trait = tall
+						}
+						random = {
+							chance = 10
+							add_trait = fertile
+						}
+						random = {
+							chance = 10
+							add_trait = strong
+						}
+					}				
+				}
+				10 = {
+					create_character = {
+						female = yes
+						random_traits = yes
+						dynasty = culture
+						religion = manichean
+						culture = tocharian
+					}
+					new_character = {
+						add_consort = ROOT
+						# Her traits aren't that random (they had to choose someone worthwhile for the whole bear hunt thingy, after all)
+						random = {
+							chance = 33
+							add_trait = fair
+						}
+						random = {
+							chance = 10
+							add_trait = tall
+						}
+						random = {
+							chance = 10
+							add_trait = fertile
+						}
+						random = {
+							chance = 10
+							add_trait = strong
+						}
+					}				
+				}
+				10 = {
+					create_character = {
+						female = yes
+						random_traits = yes
+						dynasty = culture
+						religion = nestorian
+						culture = tocharian
+					}
+					new_character = {
+						add_consort = ROOT
+						# Her traits aren't that random (they had to choose someone worthwhile for the whole bear hunt thingy, after all)
+						random = {
+							chance = 33
+							add_trait = fair
+						}
+						random = {
+							chance = 10
+							add_trait = tall
+						}
+						random = {
+							chance = 10
+							add_trait = fertile
+						}
+						random = {
+							chance = 10
+							add_trait = strong
+						}
+					}				
+				}
+				10 = {
+					create_character = {
+						female = yes
+						random_traits = yes
+						dynasty = culture
+						religion = zoroastrian
+						culture = tocharian
+					}
+					new_character = {
+						add_consort = ROOT
+						# Her traits aren't that random (they had to choose someone worthwhile for the whole bear hunt thingy, after all)
+						random = {
+							chance = 33
+							add_trait = fair
+						}
+						random = {
+							chance = 10
+							add_trait = tall
+						}
+						random = {
+							chance = 10
+							add_trait = fertile
+						}
+						random = {
+							chance = 10
+							add_trait = strong
+						}
+					}				
+				}
+				10 = {
+					create_character = {
+						female = yes
+						random_traits = yes
+						dynasty = culture
+						religion = khurramite
+						culture = tocharian
+					}
+					new_character = {
+						add_consort = ROOT
+						# Her traits aren't that random (they had to choose someone worthwhile for the whole bear hunt thingy, after all)
+						random = {
+							chance = 33
+							add_trait = fair
+						}
+						random = {
+							chance = 10
+							add_trait = tall
+						}
+						random = {
+							chance = 10
+							add_trait = fertile
+						}
+						random = {
+							chance = 10
+							add_trait = strong
+						}
+					}				
+				}
+				25 = {
+					create_character = {
+						female = yes
+						random_traits = yes
+						dynasty = culture
+						religion = buddhist
+						culture = tokharian
+					}
+					new_character = {
+						add_consort = ROOT
+						# Her traits aren't that random (they had to choose someone worthwhile for the whole bear hunt thingy, after all)
+						random = {
+							chance = 33
+							add_trait = fair
+						}
+						random = {
+							chance = 10
+							add_trait = tall
+						}
+						random = {
+							chance = 10
+							add_trait = fertile
+						}
+						random = {
+							chance = 10
+							add_trait = strong
+						}
+					}				
+				}
+				15 = {
+					create_character = {
+						female = yes
+						random_traits = yes
+						dynasty = culture
+						religion = manichean
+						culture = tokharian
+					}
+					new_character = {
+						add_consort = ROOT
+						# Her traits aren't that random (they had to choose someone worthwhile for the whole bear hunt thingy, after all)
+						random = {
+							chance = 33
+							add_trait = fair
+						}
+						random = {
+							chance = 10
+							add_trait = tall
+						}
+						random = {
+							chance = 10
+							add_trait = fertile
+						}
+						random = {
+							chance = 10
+							add_trait = strong
+						}
+					}				
+				}
+				30 = {
+					create_character = {
+						female = yes
+						random_traits = yes
+						dynasty = culture
+						religion = buddhist
+						culture = khotanese
+					}
+					new_character = {
+						add_consort = ROOT
+						# Her traits aren't that random (they had to choose someone worthwhile for the whole bear hunt thingy, after all)
+						random = {
+							chance = 33
+							add_trait = fair
+						}
+						random = {
+							chance = 10
+							add_trait = tall
+						}
+						random = {
+							chance = 10
+							add_trait = fertile
+						}
+						random = {
+							chance = 10
+							add_trait = strong
+						}
+					}				
+				}
+				5 = {
+					create_character = {
+						female = yes
+						random_traits = yes
+						dynasty = culture
+						religion = tengri_pagan
+						culture = turkish
+					}
+					new_character = {
+						add_consort = ROOT
+						# Her traits aren't that random (they had to choose someone worthwhile for the whole bear hunt thingy, after all)
+						random = {
+							chance = 33
+							add_trait = fair
+						}
+						random = {
+							chance = 10
+							add_trait = tall
+						}
+						random = {
+							chance = 10
+							add_trait = fertile
+						}
+						random = {
+							chance = 10
+							add_trait = strong
+						}
+					}				
+				}
+				5 = {
+					create_character = {
+						female = yes
+						random_traits = yes
+						dynasty = culture
+						religion = buddhist
+						culture = afghan
+					}
+					new_character = {
+						add_consort = ROOT
+						# Her traits aren't that random (they had to choose someone worthwhile for the whole bear hunt thingy, after all)
+						random = {
+							chance = 33
+							add_trait = fair
+						}
+						random = {
+							chance = 10
+							add_trait = tall
+						}
+						random = {
+							chance = 10
+							add_trait = fertile
+						}
+						random = {
+							chance = 10
+							add_trait = strong
+						}
+					}				
+				}
+				5 = {
+					create_character = {
+						female = yes
+						random_traits = yes
+						dynasty = culture
+						religion = zun_pagan
+						culture = afghan
+					}
+					new_character = {
+						add_consort = ROOT
+						# Her traits aren't that random (they had to choose someone worthwhile for the whole bear hunt thingy, after all)
+						random = {
+							chance = 33
+							add_trait = fair
+						}
+						random = {
+							chance = 10
+							add_trait = tall
+						}
+						random = {
+							chance = 10
+							add_trait = fertile
+						}
+						random = {
+							chance = 10
+							add_trait = strong
+						}
+					}				
+				}
+				5 = {
+					create_character = {
+						female = yes
+						random_traits = yes
+						dynasty = culture
+						religion = manichean
+						culture = uyghur
+					}
+					new_character = {
+						add_consort = ROOT
+						# Her traits aren't that random (they had to choose someone worthwhile for the whole bear hunt thingy, after all)
+						random = {
+							chance = 33
+							add_trait = fair
+						}
+						random = {
+							chance = 10
+							add_trait = tall
+						}
+						random = {
+							chance = 10
+							add_trait = fertile
+						}
+						random = {
+							chance = 10
+							add_trait = strong
+						}
+					}				
+				}
+				5 = {
+					create_character = {
+						female = yes
+						random_traits = yes
+						dynasty = culture
+						religion = buddhist
+						culture = uyghur
+					}
+					new_character = {
+						add_consort = ROOT
+						# Her traits aren't that random (they had to choose someone worthwhile for the whole bear hunt thingy, after all)
+						random = {
+							chance = 33
+							add_trait = fair
+						}
+						random = {
+							chance = 10
+							add_trait = tall
+						}
+						random = {
+							chance = 10
+							add_trait = fertile
+						}
+						random = {
+							chance = 10
+							add_trait = strong
+						}
+					}				
+				}
+				5 = {
+					create_character = {
+						female = yes
+						random_traits = yes
+						dynasty = culture
+						religion = tengri_pagan
+						culture = cuman
+					}
+					new_character = {
+						add_consort = ROOT
+						# Her traits aren't that random (they had to choose someone worthwhile for the whole bear hunt thingy, after all)
+						random = {
+							chance = 33
+							add_trait = fair
+						}
+						random = {
+							chance = 10
+							add_trait = tall
+						}
+						random = {
+							chance = 10
+							add_trait = fertile
+						}
+						random = {
+							chance = 10
+							add_trait = strong
+						}
+					}				
+				}
+				5 = {
+					create_character = {
+						female = yes
+						random_traits = yes
+						dynasty = culture
+						religion = tengri_pagan
+						culture = kirghiz
+					}
+					new_character = {
+						add_consort = ROOT
+						# Her traits aren't that random (they had to choose someone worthwhile for the whole bear hunt thingy, after all)
+						random = {
+							chance = 33
+							add_trait = fair
+						}
+						random = {
+							chance = 10
+							add_trait = tall
+						}
+						random = {
+							chance = 10
+							add_trait = fertile
+						}
+						random = {
+							chance = 10
+							add_trait = strong
+						}
+					}				
+				}
+				5 = {
+					create_character = {
+						female = yes
+						random_traits = yes
+						dynasty = culture
+						religion = tengri_pagan
+						culture = karluk
+					}
+					new_character = {
+						add_consort = ROOT
+						# Her traits aren't that random (they had to choose someone worthwhile for the whole bear hunt thingy, after all)
+						random = {
+							chance = 33
+							add_trait = fair
+						}
+						random = {
+							chance = 10
+							add_trait = tall
+						}
+						random = {
+							chance = 10
+							add_trait = fertile
+						}
+						random = {
+							chance = 10
+							add_trait = strong
+						}
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				OR = {
+					has_polygamy = yes
+					is_married = no
+				}
+			}
+			random_list = {
+				10 = {
+					create_character = {
+						female = yes
+						random_traits = yes
+						dynasty = culture
+						religion = buddhist
+						culture = tocharian
+					}
+					new_character = {
+						add_spouse = ROOT
+						# Her traits aren't that random (they had to choose someone worthwhile for the whole bear hunt thingy, after all)
+						random = {
+							chance = 33
+							add_trait = fair
+						}
+						random = {
+							chance = 10
+							add_trait = tall
+						}
+						random = {
+							chance = 10
+							add_trait = fertile
+						}
+						random = {
+							chance = 10
+							add_trait = strong
+						}
+					}
+				}
+				10 = {
+					create_character = {
+						female = yes
+						random_traits = yes
+						dynasty = culture
+						religion = manichean
+						culture = tocharian
+					}
+					new_character = {
+						add_spouse = ROOT
+						# Her traits aren't that random (they had to choose someone worthwhile for the whole bear hunt thingy, after all)
+						random = {
+							chance = 33
+							add_trait = fair
+						}
+						random = {
+							chance = 10
+							add_trait = tall
+						}
+						random = {
+							chance = 10
+							add_trait = fertile
+						}
+						random = {
+							chance = 10
+							add_trait = strong
+						}
+					}
+				}
+				10 = {
+					create_character = {
+						female = yes
+						random_traits = yes
+						dynasty = culture
+						religion = nestorian
+						culture = tocharian
+					}
+					new_character = {
+						add_spouse = ROOT
+						# Her traits aren't that random (they had to choose someone worthwhile for the whole bear hunt thingy, after all)
+						random = {
+							chance = 33
+							add_trait = fair
+						}
+						random = {
+							chance = 10
+							add_trait = tall
+						}
+						random = {
+							chance = 10
+							add_trait = fertile
+						}
+						random = {
+							chance = 10
+							add_trait = strong
+						}
+					}
+				}
+				10 = {
+					create_character = {
+						female = yes
+						random_traits = yes
+						dynasty = culture
+						religion = zoroastrian
+						culture = tocharian
+					}
+					new_character = {
+						add_spouse = ROOT
+						# Her traits aren't that random (they had to choose someone worthwhile for the whole bear hunt thingy, after all)
+						random = {
+							chance = 33
+							add_trait = fair
+						}
+						random = {
+							chance = 10
+							add_trait = tall
+						}
+						random = {
+							chance = 10
+							add_trait = fertile
+						}
+						random = {
+							chance = 10
+							add_trait = strong
+						}
+					}
+				}
+				10 = {
+					create_character = {
+						female = yes
+						random_traits = yes
+						dynasty = culture
+						religion = khurramite
+						culture = tocharian
+					}
+					new_character = {
+						add_spouse = ROOT
+						# Her traits aren't that random (they had to choose someone worthwhile for the whole bear hunt thingy, after all)
+						random = {
+							chance = 33
+							add_trait = fair
+						}
+						random = {
+							chance = 10
+							add_trait = tall
+						}
+						random = {
+							chance = 10
+							add_trait = fertile
+						}
+						random = {
+							chance = 10
+							add_trait = strong
+						}
+					}
+				}
+				25 = {
+					create_character = {
+						female = yes
+						random_traits = yes
+						dynasty = culture
+						religion = buddhist
+						culture = tokharian
+					}
+					new_character = {
+						add_spouse = ROOT
+						# Her traits aren't that random (they had to choose someone worthwhile for the whole bear hunt thingy, after all)
+						random = {
+							chance = 33
+							add_trait = fair
+						}
+						random = {
+							chance = 10
+							add_trait = tall
+						}
+						random = {
+							chance = 10
+							add_trait = fertile
+						}
+						random = {
+							chance = 10
+							add_trait = strong
+						}
+					}
+				}
+				15 = {
+					create_character = {
+						female = yes
+						random_traits = yes
+						dynasty = culture
+						religion = manichean
+						culture = tokharian
+					}
+					new_character = {
+						add_spouse = ROOT
+						# Her traits aren't that random (they had to choose someone worthwhile for the whole bear hunt thingy, after all)
+						random = {
+							chance = 33
+							add_trait = fair
+						}
+						random = {
+							chance = 10
+							add_trait = tall
+						}
+						random = {
+							chance = 10
+							add_trait = fertile
+						}
+						random = {
+							chance = 10
+							add_trait = strong
+						}
+					}
+				}
+				30 = {
+					create_character = {
+						female = yes
+						random_traits = yes
+						dynasty = culture
+						religion = buddhist
+						culture = khotanese
+					}
+					new_character = {
+						add_spouse = ROOT
+						# Her traits aren't that random (they had to choose someone worthwhile for the whole bear hunt thingy, after all)
+						random = {
+							chance = 33
+							add_trait = fair
+						}
+						random = {
+							chance = 10
+							add_trait = tall
+						}
+						random = {
+							chance = 10
+							add_trait = fertile
+						}
+						random = {
+							chance = 10
+							add_trait = strong
+						}
+					}
+				}
+				5 = {
+					create_character = {
+						female = yes
+						random_traits = yes
+						dynasty = culture
+						religion = tengri_pagan
+						culture = turkish
+					}
+					new_character = {
+						add_spouse = ROOT
+						# Her traits aren't that random (they had to choose someone worthwhile for the whole bear hunt thingy, after all)
+						random = {
+							chance = 33
+							add_trait = fair
+						}
+						random = {
+							chance = 10
+							add_trait = tall
+						}
+						random = {
+							chance = 10
+							add_trait = fertile
+						}
+						random = {
+							chance = 10
+							add_trait = strong
+						}
+					}
+				}
+				5 = {
+					create_character = {
+						female = yes
+						random_traits = yes
+						dynasty = culture
+						religion = buddhist
+						culture = afghan
+					}
+					new_character = {
+						add_spouse = ROOT
+						# Her traits aren't that random (they had to choose someone worthwhile for the whole bear hunt thingy, after all)
+						random = {
+							chance = 33
+							add_trait = fair
+						}
+						random = {
+							chance = 10
+							add_trait = tall
+						}
+						random = {
+							chance = 10
+							add_trait = fertile
+						}
+						random = {
+							chance = 10
+							add_trait = strong
+						}
+					}
+				}
+				5 = {
+					create_character = {
+						female = yes
+						random_traits = yes
+						dynasty = culture
+						religion = zun_pagan
+						culture = afghan
+					}
+					new_character = {
+						add_spouse = ROOT
+						# Her traits aren't that random (they had to choose someone worthwhile for the whole bear hunt thingy, after all)
+						random = {
+							chance = 33
+							add_trait = fair
+						}
+						random = {
+							chance = 10
+							add_trait = tall
+						}
+						random = {
+							chance = 10
+							add_trait = fertile
+						}
+						random = {
+							chance = 10
+							add_trait = strong
+						}
+					}
+				}
+				5 = {
+					create_character = {
+						female = yes
+						random_traits = yes
+						dynasty = culture
+						religion = manichean
+						culture = uyghur
+					}
+					new_character = {
+						add_spouse = ROOT
+						# Her traits aren't that random (they had to choose someone worthwhile for the whole bear hunt thingy, after all)
+						random = {
+							chance = 33
+							add_trait = fair
+						}
+						random = {
+							chance = 10
+							add_trait = tall
+						}
+						random = {
+							chance = 10
+							add_trait = fertile
+						}
+						random = {
+							chance = 10
+							add_trait = strong
+						}
+					}
+				}
+				5 = {
+					create_character = {
+						female = yes
+						random_traits = yes
+						dynasty = culture
+						religion = buddhist
+						culture = uyghur
+					}
+					new_character = {
+						add_spouse = ROOT
+						# Her traits aren't that random (they had to choose someone worthwhile for the whole bear hunt thingy, after all)
+						random = {
+							chance = 33
+							add_trait = fair
+						}
+						random = {
+							chance = 10
+							add_trait = tall
+						}
+						random = {
+							chance = 10
+							add_trait = fertile
+						}
+						random = {
+							chance = 10
+							add_trait = strong
+						}
+					}
+				}
+				5 = {
+					create_character = {
+						female = yes
+						random_traits = yes
+						dynasty = culture
+						religion = tengri_pagan
+						culture = kirghiz
+					}
+					new_character = {
+						add_consort = ROOT
+						# Her traits aren't that random (they had to choose someone worthwhile for the whole bear hunt thingy, after all)
+						random = {
+							chance = 33
+							add_trait = fair
+						}
+						random = {
+							chance = 10
+							add_trait = tall
+						}
+						random = {
+							chance = 10
+							add_trait = fertile
+						}
+						random = {
+							chance = 10
+							add_trait = strong
+						}
+					}
+				}
+				5 = {
+					create_character = {
+						female = yes
+						random_traits = yes
+						dynasty = culture
+						religion = tengri_pagan
+						culture = karluk
+					}
+					new_character = {
+						add_consort = ROOT
+						# Her traits aren't that random (they had to choose someone worthwhile for the whole bear hunt thingy, after all)
+						random = {
+							chance = 33
+							add_trait = fair
+						}
+						random = {
+							chance = 10
+							add_trait = tall
+						}
+						random = {
+							chance = 10
+							add_trait = fertile
+						}
+						random = {
+							chance = 10
+							add_trait = strong
+						}
+					}
+				}
+			}
+		}
+	}
+	option = { # for relative
+		name = "silkroad.411.b"
+		trigger = {
+			any_dynasty_member = {
+				OR = {
+					AND = {
+						has_concubinage = yes
+						NOT = { num_of_consorts = 3 }
+					}
+					AND = {
+						has_polygamy = yes
+						NOT = { num_of_spouses = 3 }
+					}
+					is_married = no
+				}
+				NOT = { character = ROOT }
+				age = 13
+				NOT = { age = 50 }
+				NOT = { trait = incapable }
+				ai = yes
+				is_close_relative = yes
+				is_female = no
+			}
+		}
+		ai_chance = { factor = 10 }
+		random_dynasty_member = {
+			limit = {
+				OR = {
+					AND = {
+						has_concubinage = yes
+						NOT = { num_of_consorts = 3 }
+					}
+					AND = {
+						has_polygamy = yes
+						NOT = { num_of_spouses = 3 }
+					}
+					is_married = no
+				}
+				NOT = { character = ROOT }
+				is_adult = yes
+				NOT = { age = 50 }
+				NOT = { trait = incapable }
+				ai = yes
+				is_close_relative = yes
+				is_female = no
+			}
+			opinion = {
+				modifier = VIET_concubine_gift
+				who = ROOT
+				years = 10
+			}
+			character_event = { id = silkroad.412 }
+		}
+	}
+	option = { # for courtier
+		name = "silkroad.411.c"
+		trigger = {
+			any_courtier = {
+				OR = {
+					AND = {
+						has_concubinage = yes
+						NOT = { num_of_consorts = 3 }
+					}
+					AND = {
+						has_polygamy = yes
+						NOT = { num_of_spouses = 3 }
+					}
+					is_married = no
+				}
+				NOT = { character = ROOT }
+				age = 13
+				NOT = { age = 50 }
+				NOT = { trait = incapable }
+				ai = yes
+				is_close_relative = no
+				is_female = no
+			}
+		}
+		ai_chance = { factor = 5 }
+		random_courtier = {
+			limit = {
+				OR = {
+					AND = {
+						has_concubinage = yes
+						NOT = { num_of_consorts = 3 }
+					}
+					AND = {
+						has_polygamy = yes
+						NOT = { num_of_spouses = 3 }
+					}
+					is_married = no
+				}
+				NOT = { character = ROOT }
+				is_adult = yes
+				NOT = { age = 50 }
+				NOT = { trait = incapable }
+				ai = yes
+				is_close_relative = no
+				is_female = no
+			}
+			opinion = {
+				modifier = VIET_concubine_gift
+				who = ROOT
+				years = 10
+			}
+			character_event = { id = silkroad.412 }
+		}
+	}
+	option = { # no thanks
+		name = "silkroad.411.d"
+		ai_chance = { factor = 50 }
+		piety = 5
+	}
+	option = { # female
+		name = "silkroad.411.e"
+		trigger = {
+			is_female = yes
+		}
+		ai_chance = { factor = 20 }
+		piety = 5
+	}
+}
+
+
+
+# concubinage
+character_event = {
+	id = silkroad.412
+	desc = silkroad.412.desc
+	picture = GFX_evt_maiden
+	
+	is_triggered_only = yes
+	
+	option = { # for me?
+		name = "silkroad.412.a"
+		prestige = 10
+		if = {
+			limit = {
+				has_concubinage = yes
+			}
+			random_list = {
+				10 = {
+					create_character = {
+						female = yes
+						random_traits = yes
+						dynasty = culture
+						religion = buddhist
+						culture = tocharian
+					}
+					new_character = {
+						add_consort = ROOT
+						# Her traits aren't that random (they had to choose someone worthwhile for the whole bear hunt thingy, after all)
+						random = {
+							chance = 33
+							add_trait = fair
+						}
+						random = {
+							chance = 10
+							add_trait = tall
+						}
+						random = {
+							chance = 10
+							add_trait = fertile
+						}
+						random = {
+							chance = 10
+							add_trait = strong
+						}
+					}
+				}
+				10 = {
+					create_character = {
+						female = yes
+						random_traits = yes
+						dynasty = culture
+						religion = manichean
+						culture = tocharian
+					}
+					new_character = {
+						add_consort = ROOT
+						# Her traits aren't that random (they had to choose someone worthwhile for the whole bear hunt thingy, after all)
+						random = {
+							chance = 33
+							add_trait = fair
+						}
+						random = {
+							chance = 10
+							add_trait = tall
+						}
+						random = {
+							chance = 10
+							add_trait = fertile
+						}
+						random = {
+							chance = 10
+							add_trait = strong
+						}
+					}
+				}
+				10 = {
+					create_character = {
+						female = yes
+						random_traits = yes
+						dynasty = culture
+						religion = nestorian
+						culture = tocharian
+					}
+					new_character = {
+						add_consort = ROOT
+						# Her traits aren't that random (they had to choose someone worthwhile for the whole bear hunt thingy, after all)
+						random = {
+							chance = 33
+							add_trait = fair
+						}
+						random = {
+							chance = 10
+							add_trait = tall
+						}
+						random = {
+							chance = 10
+							add_trait = fertile
+						}
+						random = {
+							chance = 10
+							add_trait = strong
+						}
+					}
+				}
+				10 = {
+					create_character = {
+						female = yes
+						random_traits = yes
+						dynasty = culture
+						religion = zoroastrian
+						culture = tocharian
+					}
+					new_character = {
+						add_consort = ROOT
+						# Her traits aren't that random (they had to choose someone worthwhile for the whole bear hunt thingy, after all)
+						random = {
+							chance = 33
+							add_trait = fair
+						}
+						random = {
+							chance = 10
+							add_trait = tall
+						}
+						random = {
+							chance = 10
+							add_trait = fertile
+						}
+						random = {
+							chance = 10
+							add_trait = strong
+						}
+					}
+				}
+				10 = {
+					create_character = {
+						female = yes
+						random_traits = yes
+						dynasty = culture
+						religion = khurramite
+						culture = tocharian
+					}
+					new_character = {
+						add_consort = ROOT
+						# Her traits aren't that random (they had to choose someone worthwhile for the whole bear hunt thingy, after all)
+						random = {
+							chance = 33
+							add_trait = fair
+						}
+						random = {
+							chance = 10
+							add_trait = tall
+						}
+						random = {
+							chance = 10
+							add_trait = fertile
+						}
+						random = {
+							chance = 10
+							add_trait = strong
+						}
+					}
+				}
+				25 = {
+					create_character = {
+						female = yes
+						random_traits = yes
+						dynasty = culture
+						religion = buddhist
+						culture = tokharian
+					}
+					new_character = {
+						add_consort = ROOT
+						# Her traits aren't that random (they had to choose someone worthwhile for the whole bear hunt thingy, after all)
+						random = {
+							chance = 33
+							add_trait = fair
+						}
+						random = {
+							chance = 10
+							add_trait = tall
+						}
+						random = {
+							chance = 10
+							add_trait = fertile
+						}
+						random = {
+							chance = 10
+							add_trait = strong
+						}
+					}
+				}
+				15 = {
+					create_character = {
+						female = yes
+						random_traits = yes
+						dynasty = culture
+						religion = manichean
+						culture = tokharian
+					}
+					new_character = {
+						add_consort = ROOT
+						# Her traits aren't that random (they had to choose someone worthwhile for the whole bear hunt thingy, after all)
+						random = {
+							chance = 33
+							add_trait = fair
+						}
+						random = {
+							chance = 10
+							add_trait = tall
+						}
+						random = {
+							chance = 10
+							add_trait = fertile
+						}
+						random = {
+							chance = 10
+							add_trait = strong
+						}
+					}
+				}
+				30 = {
+					create_character = {
+						female = yes
+						random_traits = yes
+						dynasty = culture
+						religion = buddhist
+						culture = khotanese
+					}
+					new_character = {
+						add_consort = ROOT
+						# Her traits aren't that random (they had to choose someone worthwhile for the whole bear hunt thingy, after all)
+						random = {
+							chance = 33
+							add_trait = fair
+						}
+						random = {
+							chance = 10
+							add_trait = tall
+						}
+						random = {
+							chance = 10
+							add_trait = fertile
+						}
+						random = {
+							chance = 10
+							add_trait = strong
+						}
+					}
+				}
+				5 = {
+					create_character = {
+						female = yes
+						random_traits = yes
+						dynasty = culture
+						religion = tengri_pagan
+						culture = turkish
+					}
+					new_character = {
+						add_consort = ROOT
+						# Her traits aren't that random (they had to choose someone worthwhile for the whole bear hunt thingy, after all)
+						random = {
+							chance = 33
+							add_trait = fair
+						}
+						random = {
+							chance = 10
+							add_trait = tall
+						}
+						random = {
+							chance = 10
+							add_trait = fertile
+						}
+						random = {
+							chance = 10
+							add_trait = strong
+						}
+					}
+				}
+				5 = {
+					create_character = {
+						female = yes
+						random_traits = yes
+						dynasty = culture
+						religion = buddhist
+						culture = afghan
+					}
+					new_character = {
+						add_consort = ROOT
+						# Her traits aren't that random (they had to choose someone worthwhile for the whole bear hunt thingy, after all)
+						random = {
+							chance = 33
+							add_trait = fair
+						}
+						random = {
+							chance = 10
+							add_trait = tall
+						}
+						random = {
+							chance = 10
+							add_trait = fertile
+						}
+						random = {
+							chance = 10
+							add_trait = strong
+						}
+					}
+				}
+				5 = {
+					create_character = {
+						female = yes
+						random_traits = yes
+						dynasty = culture
+						religion = zun_pagan
+						culture = afghan
+					}
+					new_character = {
+						add_consort = ROOT
+						# Her traits aren't that random (they had to choose someone worthwhile for the whole bear hunt thingy, after all)
+						random = {
+							chance = 33
+							add_trait = fair
+						}
+						random = {
+							chance = 10
+							add_trait = tall
+						}
+						random = {
+							chance = 10
+							add_trait = fertile
+						}
+						random = {
+							chance = 10
+							add_trait = strong
+						}
+					}
+				}
+				5 = {
+					create_character = {
+						female = yes
+						random_traits = yes
+						dynasty = culture
+						religion = manichean
+						culture = uyghur
+					}
+					new_character = {
+						add_consort = ROOT
+						# Her traits aren't that random (they had to choose someone worthwhile for the whole bear hunt thingy, after all)
+						random = {
+							chance = 33
+							add_trait = fair
+						}
+						random = {
+							chance = 10
+							add_trait = tall
+						}
+						random = {
+							chance = 10
+							add_trait = fertile
+						}
+						random = {
+							chance = 10
+							add_trait = strong
+						}
+					}
+				}
+				5 = {
+					create_character = {
+						female = yes
+						random_traits = yes
+						dynasty = culture
+						religion = buddhist
+						culture = uyghur
+					}
+					new_character = {
+						add_consort = ROOT
+						# Her traits aren't that random (they had to choose someone worthwhile for the whole bear hunt thingy, after all)
+						random = {
+							chance = 33
+							add_trait = fair
+						}
+						random = {
+							chance = 10
+							add_trait = tall
+						}
+						random = {
+							chance = 10
+							add_trait = fertile
+						}
+						random = {
+							chance = 10
+							add_trait = strong
+						}
+					}
+				}
+				5 = {
+					create_character = {
+						female = yes
+						random_traits = yes
+						dynasty = culture
+						religion = tengri_pagan
+						culture = cuman
+					}
+					new_character = {
+						add_consort = ROOT
+						# Her traits aren't that random (they had to choose someone worthwhile for the whole bear hunt thingy, after all)
+						random = {
+							chance = 33
+							add_trait = fair
+						}
+						random = {
+							chance = 10
+							add_trait = tall
+						}
+						random = {
+							chance = 10
+							add_trait = fertile
+						}
+						random = {
+							chance = 10
+							add_trait = strong
+						}
+					}
+				}
+				5 = {
+					create_character = {
+						female = yes
+						random_traits = yes
+						dynasty = culture
+						religion = tengri_pagan
+						culture = kirghiz
+					}
+					new_character = {
+						add_consort = ROOT
+						# Her traits aren't that random (they had to choose someone worthwhile for the whole bear hunt thingy, after all)
+						random = {
+							chance = 33
+							add_trait = fair
+						}
+						random = {
+							chance = 10
+							add_trait = tall
+						}
+						random = {
+							chance = 10
+							add_trait = fertile
+						}
+						random = {
+							chance = 10
+							add_trait = strong
+						}
+					}
+				}
+				5 = {
+					create_character = {
+						female = yes
+						random_traits = yes
+						dynasty = culture
+						religion = tengri_pagan
+						culture = karluk
+					}
+					new_character = {
+						add_consort = ROOT
+						# Her traits aren't that random (they had to choose someone worthwhile for the whole bear hunt thingy, after all)
+						random = {
+							chance = 33
+							add_trait = fair
+						}
+						random = {
+							chance = 10
+							add_trait = tall
+						}
+						random = {
+							chance = 10
+							add_trait = fertile
+						}
+						random = {
+							chance = 10
+							add_trait = strong
+						}
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				OR = {
+					has_polygamy = yes
+					is_married = no
+				}
+			}
+			random_list = {
+				10 = {
+					create_character = {
+						female = yes
+						random_traits = yes
+						dynasty = culture
+						religion = buddhist
+						culture = tocharian
+					}
+					new_character = {
+						add_spouse = ROOT
+						# Her traits aren't that random (they had to choose someone worthwhile for the whole bear hunt thingy, after all)
+						random = {
+							chance = 33
+							add_trait = fair
+						}
+						random = {
+							chance = 10
+							add_trait = tall
+						}
+						random = {
+							chance = 10
+							add_trait = fertile
+						}
+						random = {
+							chance = 10
+							add_trait = strong
+						}
+					}
+				}
+				10 = {
+					create_character = {
+						female = yes
+						random_traits = yes
+						dynasty = culture
+						religion = manichean
+						culture = tocharian
+					}
+					new_character = {
+						add_spouse = ROOT
+						# Her traits aren't that random (they had to choose someone worthwhile for the whole bear hunt thingy, after all)
+						random = {
+							chance = 33
+							add_trait = fair
+						}
+						random = {
+							chance = 10
+							add_trait = tall
+						}
+						random = {
+							chance = 10
+							add_trait = fertile
+						}
+						random = {
+							chance = 10
+							add_trait = strong
+						}
+					}
+				}
+				10 = {
+					create_character = {
+						female = yes
+						random_traits = yes
+						dynasty = culture
+						religion = nestorian
+						culture = tocharian
+					}
+					new_character = {
+						add_spouse = ROOT
+						# Her traits aren't that random (they had to choose someone worthwhile for the whole bear hunt thingy, after all)
+						random = {
+							chance = 33
+							add_trait = fair
+						}
+						random = {
+							chance = 10
+							add_trait = tall
+						}
+						random = {
+							chance = 10
+							add_trait = fertile
+						}
+						random = {
+							chance = 10
+							add_trait = strong
+						}
+					}
+				}
+				10 = {
+					create_character = {
+						female = yes
+						random_traits = yes
+						dynasty = culture
+						religion = zoroastrian
+						culture = tocharian
+					}
+					new_character = {
+						add_spouse = ROOT
+						# Her traits aren't that random (they had to choose someone worthwhile for the whole bear hunt thingy, after all)
+						random = {
+							chance = 33
+							add_trait = fair
+						}
+						random = {
+							chance = 10
+							add_trait = tall
+						}
+						random = {
+							chance = 10
+							add_trait = fertile
+						}
+						random = {
+							chance = 10
+							add_trait = strong
+						}
+					}
+				}
+				10 = {
+					create_character = {
+						female = yes
+						random_traits = yes
+						dynasty = culture
+						religion = khurramite
+						culture = tocharian
+					}
+					new_character = {
+						add_spouse = ROOT
+						# Her traits aren't that random (they had to choose someone worthwhile for the whole bear hunt thingy, after all)
+						random = {
+							chance = 33
+							add_trait = fair
+						}
+						random = {
+							chance = 10
+							add_trait = tall
+						}
+						random = {
+							chance = 10
+							add_trait = fertile
+						}
+						random = {
+							chance = 10
+							add_trait = strong
+						}
+					}
+				}
+				25 = {
+					create_character = {
+						female = yes
+						random_traits = yes
+						dynasty = culture
+						religion = buddhist
+						culture = tokharian
+					}
+					new_character = {
+						add_spouse = ROOT
+						# Her traits aren't that random (they had to choose someone worthwhile for the whole bear hunt thingy, after all)
+						random = {
+							chance = 33
+							add_trait = fair
+						}
+						random = {
+							chance = 10
+							add_trait = tall
+						}
+						random = {
+							chance = 10
+							add_trait = fertile
+						}
+						random = {
+							chance = 10
+							add_trait = strong
+						}
+					}
+				}
+				15 = {
+					create_character = {
+						female = yes
+						random_traits = yes
+						dynasty = culture
+						religion = manichean
+						culture = tokharian
+					}
+					new_character = {
+						add_spouse = ROOT
+						# Her traits aren't that random (they had to choose someone worthwhile for the whole bear hunt thingy, after all)
+						random = {
+							chance = 33
+							add_trait = fair
+						}
+						random = {
+							chance = 10
+							add_trait = tall
+						}
+						random = {
+							chance = 10
+							add_trait = fertile
+						}
+						random = {
+							chance = 10
+							add_trait = strong
+						}
+					}
+				}
+				30 = {
+					create_character = {
+						female = yes
+						random_traits = yes
+						dynasty = culture
+						religion = buddhist
+						culture = khotanese
+					}
+					new_character = {
+						add_spouse = ROOT
+						# Her traits aren't that random (they had to choose someone worthwhile for the whole bear hunt thingy, after all)
+						random = {
+							chance = 33
+							add_trait = fair
+						}
+						random = {
+							chance = 10
+							add_trait = tall
+						}
+						random = {
+							chance = 10
+							add_trait = fertile
+						}
+						random = {
+							chance = 10
+							add_trait = strong
+						}
+					}
+				}
+				5 = {
+					create_character = {
+						female = yes
+						random_traits = yes
+						dynasty = culture
+						religion = tengri_pagan
+						culture = turkish
+					}
+					new_character = {
+						add_spouse = ROOT
+						# Her traits aren't that random (they had to choose someone worthwhile for the whole bear hunt thingy, after all)
+						random = {
+							chance = 33
+							add_trait = fair
+						}
+						random = {
+							chance = 10
+							add_trait = tall
+						}
+						random = {
+							chance = 10
+							add_trait = fertile
+						}
+						random = {
+							chance = 10
+							add_trait = strong
+						}
+					}
+				}
+				5 = {
+					create_character = {
+						female = yes
+						random_traits = yes
+						dynasty = culture
+						religion = buddhist
+						culture = afghan
+					}
+					new_character = {
+						add_spouse = ROOT
+						# Her traits aren't that random (they had to choose someone worthwhile for the whole bear hunt thingy, after all)
+						random = {
+							chance = 33
+							add_trait = fair
+						}
+						random = {
+							chance = 10
+							add_trait = tall
+						}
+						random = {
+							chance = 10
+							add_trait = fertile
+						}
+						random = {
+							chance = 10
+							add_trait = strong
+						}
+					}
+				}
+				5 = {
+					create_character = {
+						female = yes
+						random_traits = yes
+						dynasty = culture
+						religion = zun_pagan
+						culture = afghan
+					}
+					new_character = {
+						add_spouse = ROOT
+						# Her traits aren't that random (they had to choose someone worthwhile for the whole bear hunt thingy, after all)
+						random = {
+							chance = 33
+							add_trait = fair
+						}
+						random = {
+							chance = 10
+							add_trait = tall
+						}
+						random = {
+							chance = 10
+							add_trait = fertile
+						}
+						random = {
+							chance = 10
+							add_trait = strong
+						}
+					}
+				}
+				5 = {
+					create_character = {
+						female = yes
+						random_traits = yes
+						dynasty = culture
+						religion = manichean
+						culture = uyghur
+					}
+					new_character = {
+						add_spouse = ROOT
+						# Her traits aren't that random (they had to choose someone worthwhile for the whole bear hunt thingy, after all)
+						random = {
+							chance = 33
+							add_trait = fair
+						}
+						random = {
+							chance = 10
+							add_trait = tall
+						}
+						random = {
+							chance = 10
+							add_trait = fertile
+						}
+						random = {
+							chance = 10
+							add_trait = strong
+						}
+					}
+				}
+				5 = {
+					create_character = {
+						female = yes
+						random_traits = yes
+						dynasty = culture
+						religion = buddhist
+						culture = uyghur
+					}
+					new_character = {
+						add_spouse = ROOT
+						# Her traits aren't that random (they had to choose someone worthwhile for the whole bear hunt thingy, after all)
+						random = {
+							chance = 33
+							add_trait = fair
+						}
+						random = {
+							chance = 10
+							add_trait = tall
+						}
+						random = {
+							chance = 10
+							add_trait = fertile
+						}
+						random = {
+							chance = 10
+							add_trait = strong
+						}
+					}
+				}
+				5 = {
+					create_character = {
+						female = yes
+						random_traits = yes
+						dynasty = culture
+						religion = tengri_pagan
+						culture = kirghiz
+					}
+					new_character = {
+						add_consort = ROOT
+						# Her traits aren't that random (they had to choose someone worthwhile for the whole bear hunt thingy, after all)
+						random = {
+							chance = 33
+							add_trait = fair
+						}
+						random = {
+							chance = 10
+							add_trait = tall
+						}
+						random = {
+							chance = 10
+							add_trait = fertile
+						}
+						random = {
+							chance = 10
+							add_trait = strong
+						}
+					}
+				}
+				5 = {
+					create_character = {
+						female = yes
+						random_traits = yes
+						dynasty = culture
+						religion = tengri_pagan
+						culture = karluk
+					}
+					new_character = {
+						add_consort = ROOT
+						# Her traits aren't that random (they had to choose someone worthwhile for the whole bear hunt thingy, after all)
+						random = {
+							chance = 33
+							add_trait = fair
+						}
+						random = {
+							chance = 10
+							add_trait = tall
+						}
+						random = {
+							chance = 10
+							add_trait = fertile
+						}
+						random = {
+							chance = 10
+							add_trait = strong
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+
+
+# Sogdian music
+character_event = {
+	id = silkroad.413
+	desc = silkroad.413.desc
+	picture = GFX_evt_jugglers
+	
+	is_triggered_only = yes
+	
+	option = { # ok
+		name = "silkroad.413.a"
+		if = {
+			limit = {
+				OR = {
+					is_female = no
+					AND = {
+						is_female = yes
+						trait = homosexual
+					}
+				}
+			}
+			add_character_modifier = {
+				name = VIET_feeling_sexy
+				duration = 365
+			}
+		}
+		if = {
+			limit = {
+				OR = {
+					is_female = yes
+					AND = {
+						is_female = no
+						trait = homosexual
+					}
+				}
+			}
+			add_character_modifier = {
+				name = highly_amused_ruler
+				duration = 365
+			}
+		}
+	}
+	option = { # ok
+		name = "silkroad.413.b"		
+		add_character_modifier = {
+			name = VIET_good_music
+			duration = 365
+		}
+	}
+}
+
+# Turkish slave
+character_event = {
+	id = silkroad.414
+	desc = silkroad.414.desc
+	picture = GFX_evt_silk_road
+	
+	is_triggered_only = yes
+	
+	option = { # ok
+		name = "silkroad.414.a"
+		ai_chance = { 
+			factor = 15
+			modifier = {
+				factor = 0.2
+				any_courtier = {
+					has_character_flag = VIET_bought_turkish_slave
+				}
+			}
+			modifier = {
+				factor = 0.2
+				any_vassal = {
+					has_character_flag = VIET_bought_turkish_slave
+				}
+			}
+		}
+		random_list = {
+			30 = {
+				create_character = {
+					female = no
+					random_traits = yes
+					dynasty = culture
+					religion = tengri_pagan
+					culture = turkish
+					attributes = {
+						martial = 5
+					}
+				}
+				new_character = {
+					opinion = {
+						modifier = opinion_patron
+						who = ROOT
+						years = 20
+					}
+					reverse_opinion = {
+						modifier = opinion_new_courtier
+						who = ROOT
+						years = 5
+					}
+				}
+			}
+			20 = {
+				create_character = {
+					female = no
+					random_traits = yes
+					dynasty = culture
+					religion = tengri_pagan
+					culture = turkish
+					attributes = {
+						martial = 8
+					}
+				}
+				new_character = {
+					opinion = {
+						modifier = opinion_patron
+						who = ROOT
+						years = 20
+					}
+					reverse_opinion = {
+						modifier = opinion_new_courtier
+						who = ROOT
+						years = 5
+					}
+				}
+			}
+			10 = {
+				create_character = {
+					female = no
+					random_traits = yes
+					dynasty = culture
+					religion = tengri_pagan
+					culture = turkish
+					attributes = {
+						martial = 12
+					}
+				}
+				new_character = {
+					opinion = {
+						modifier = opinion_patron
+						who = ROOT
+						years = 20
+					}
+					reverse_opinion = {
+						modifier = opinion_new_courtier
+						who = ROOT
+						years = 5
+					}
+				}
+			}
+			15 = {
+				create_character = {
+					female = no
+					random_traits = yes
+					dynasty = culture
+					religion = tengri_pagan
+					culture = cuman
+					attributes = {
+						martial = 5
+					}
+				}
+				new_character = {
+					opinion = {
+						modifier = opinion_patron
+						who = ROOT
+						years = 20
+					}
+					reverse_opinion = {
+						modifier = opinion_new_courtier
+						who = ROOT
+						years = 5
+					}
+				}
+			}
+			10 = {
+				create_character = {
+					female = no
+					random_traits = yes
+					dynasty = culture
+					religion = tengri_pagan
+					culture = cuman
+					attributes = {
+						martial = 8
+					}
+				}
+				new_character = {
+					opinion = {
+						modifier = opinion_patron
+						who = ROOT
+						years = 20
+					}
+					reverse_opinion = {
+						modifier = opinion_new_courtier
+						who = ROOT
+						years = 5
+					}
+				}
+			}
+			5 = {
+				create_character = {
+					female = no
+					random_traits = yes
+					dynasty = culture
+					religion = tengri_pagan
+					culture = cuman
+					attributes = {
+						martial = 12
+					}
+				}
+				new_character = {
+					opinion = {
+						modifier = opinion_patron
+						who = ROOT
+						years = 20
+					}
+					reverse_opinion = {
+						modifier = opinion_new_courtier
+						who = ROOT
+						years = 5
+					}
+				}
+			}
+		}
+		set_character_flag = VIET_bought_turkish_slave
+		wealth = -10
+	}
+	option = { # ok
+		name = "silkroad.414.b"
+		ai_chance = { factor = 30 }
+	}
+}
+
+# Food setup
+character_event = {
+	id = silkroad.415
+	desc = silkroad.415.desc
+
+	hide_window = yes
+	
+	is_triggered_only = yes
+	
+	immediate = { # ok
+		#Choose one source of carbs
+		random_list = {
+			10 = { set_character_flag = VIET_sogdian_food_1_1 }
+			10 = { set_character_flag = VIET_sogdian_food_1_2 }
+			10 = { set_character_flag = VIET_sogdian_food_1_3 }
+			10 = { set_character_flag = VIET_sogdian_food_1_4 }
+			10 = { set_character_flag = VIET_sogdian_food_1_5 }
+		}
+		#Choose one source of meat
+		if = {
+			limit = {
+				NOT = { trait = vegetarian }
+			}
+			random_list = {
+				10 = { set_character_flag = VIET_sogdian_food_2_1 }
+				10 = { set_character_flag = VIET_sogdian_food_2_2 }
+				10 = { set_character_flag = VIET_sogdian_food_2_3 }
+				10 = { set_character_flag = VIET_sogdian_food_2_4 }
+				10 = { set_character_flag = VIET_sogdian_food_2_5 }
+			}
+		}
+		#Choose one side
+		random_list = {
+			10 = { set_character_flag = VIET_sogdian_food_3_1 }
+			10 = { set_character_flag = VIET_sogdian_food_3_2 }
+			10 = { set_character_flag = VIET_sogdian_food_3_3 }
+			10 = { set_character_flag = VIET_sogdian_food_3_4 }
+			10 = { set_character_flag = VIET_sogdian_food_3_5 }
+		}
+		#Choose one dessert
+		random_list = {
+			10 = { set_character_flag = VIET_sogdian_food_4_1 }
+			10 = { set_character_flag = VIET_sogdian_food_4_2 }
+			10 = { set_character_flag = VIET_sogdian_food_4_3 }
+			10 = { set_character_flag = VIET_sogdian_food_4_4 }
+			10 = { set_character_flag = VIET_sogdian_food_4_5 }
+		}
+		character_event = { id = silkroad.416 days = 1 }
+	}
+}
+
+# Food proper
+character_event = {
+	id = silkroad.416
+	desc = silkroad.416.desc
+	picture = GFX_evt_VIET_food
+	
+	is_triggered_only = yes
+	
+	#Carbs
+	option = {
+		name = "silkroad.416.a"
+		trigger = {
+			has_character_flag = VIET_sogdian_food_1_1
+		}
+		clr_character_flag = VIET_sogdian_food_1_1
+		add_character_modifier = {
+			name = VIET_silk_road_cuisine_carb
+			duration = 365
+		}
+	}
+	option = {
+		name = "silkroad.416.b"
+		trigger = {
+			has_character_flag = VIET_sogdian_food_1_2
+		}
+		clr_character_flag = VIET_sogdian_food_1_2
+		add_character_modifier = {
+			name = VIET_silk_road_cuisine_carb
+			duration = 365
+		}
+	}
+	option = {
+		name = "silkroad.416.c"
+		trigger = {
+			has_character_flag = VIET_sogdian_food_1_3
+		}
+		clr_character_flag = VIET_sogdian_food_1_3
+		add_character_modifier = {
+			name = VIET_silk_road_cuisine_carb
+			duration = 365
+		}
+	}
+	option = {
+		name = "silkroad.416.d"
+		trigger = {
+			has_character_flag = VIET_sogdian_food_1_4
+		}
+		clr_character_flag = VIET_sogdian_food_1_4
+		add_character_modifier = {
+			name = VIET_silk_road_cuisine_carb
+			duration = 365
+		}
+	}
+	option = {
+		name = "silkroad.416.e"
+		trigger = {
+			has_character_flag = VIET_sogdian_food_1_5
+		}
+		clr_character_flag = VIET_sogdian_food_1_5
+		add_character_modifier = {
+			name = VIET_silk_road_cuisine_carb
+			duration = 365
+		}
+	}	
+	#Meats
+	option = {
+		name = "silkroad.416.f"
+		trigger = {
+			has_character_flag = VIET_sogdian_food_2_1
+		}
+		clr_character_flag = VIET_sogdian_food_2_1
+		add_character_modifier = {
+			name = VIET_silk_road_cuisine_meat
+			duration = 365
+		}
+	}
+	option = {
+		name = "silkroad.416.g"
+		trigger = {
+			has_character_flag = VIET_sogdian_food_2_2
+		}
+		clr_character_flag = VIET_sogdian_food_2_2
+		add_character_modifier = {
+			name = VIET_silk_road_cuisine_meat
+			duration = 365
+		}
+	}
+	option = {
+		name = "silkroad.416.h"
+		trigger = {
+			has_character_flag = VIET_sogdian_food_2_3
+		}
+		clr_character_flag = VIET_sogdian_food_2_3
+		add_character_modifier = {
+			name = VIET_silk_road_cuisine_meat
+			duration = 365
+		}
+	}
+	option = {
+		name = "silkroad.416.i"
+		trigger = {
+			has_character_flag = VIET_sogdian_food_2_4
+		}
+		clr_character_flag = VIET_sogdian_food_2_4
+		add_character_modifier = {
+			name = VIET_silk_road_cuisine_meat
+			duration = 365
+		}
+	}
+	option = {
+		name = "silkroad.416.j"
+		trigger = {
+			has_character_flag = VIET_sogdian_food_2_5
+		}
+		clr_character_flag = VIET_sogdian_food_2_5
+		add_character_modifier = {
+			name = VIET_silk_road_cuisine_meat
+			duration = 365
+		}
+	}		
+	#Sides
+	option = {
+		name = "silkroad.416.k"
+		trigger = {
+			has_character_flag = VIET_sogdian_food_3_1
+		}
+		clr_character_flag = VIET_sogdian_food_3_1
+		add_character_modifier = {
+			name = VIET_silk_road_cuisine_sides
+			duration = 365
+		}
+	}
+	option = {
+		name = "silkroad.416.l"
+		trigger = {
+			has_character_flag = VIET_sogdian_food_3_2
+		}
+		clr_character_flag = VIET_sogdian_food_3_2
+		add_character_modifier = {
+			name = VIET_silk_road_cuisine_sides
+			duration = 365
+		}
+	}
+	option = {
+		name = "silkroad.416.m"
+		trigger = {
+			has_character_flag = VIET_sogdian_food_3_3
+		}
+		clr_character_flag = VIET_sogdian_food_3_3
+		add_character_modifier = {
+			name = VIET_silk_road_cuisine_sides
+			duration = 365
+		}
+	}
+	option = {
+		name = "silkroad.416.n"
+		trigger = {
+			has_character_flag = VIET_sogdian_food_3_4
+		}
+		clr_character_flag = VIET_sogdian_food_3_4
+		add_character_modifier = {
+			name = VIET_silk_road_cuisine_sides
+			duration = 365
+		}
+	}
+	option = {
+		name = "silkroad.416.o"
+		trigger = {
+			has_character_flag = VIET_sogdian_food_3_5
+		}
+		clr_character_flag = VIET_sogdian_food_3_5
+		add_character_modifier = {
+			name = VIET_silk_road_cuisine_sides
+			duration = 365
+		}
+	}		
+	#dessert
+	option = {
+		name = "silkroad.416.p"
+		trigger = {
+			has_character_flag = VIET_sogdian_food_4_1
+		}
+		clr_character_flag = VIET_sogdian_food_4_1
+		add_character_modifier = {
+			name = VIET_silk_road_cuisine_dessert
+			duration = 365
+		}
+	}
+	option = {
+		name = "silkroad.416.q"
+		trigger = {
+			has_character_flag = VIET_sogdian_food_4_2
+		}
+		clr_character_flag = VIET_sogdian_food_4_2
+		add_character_modifier = {
+			name = VIET_silk_road_cuisine_dessert
+			duration = 365
+		}
+	}
+	option = {
+		name = "silkroad.416.r"
+		trigger = {
+			has_character_flag = VIET_sogdian_food_4_3
+		}
+		clr_character_flag = VIET_sogdian_food_4_3
+		add_character_modifier = {
+			name = VIET_silk_road_cuisine_dessert
+			duration = 365
+		}
+	}
+	option = {
+		name = "silkroad.416.s"
+		trigger = {
+			has_character_flag = VIET_sogdian_food_4_4
+		}
+		clr_character_flag = VIET_sogdian_food_4_4
+		add_character_modifier = {
+			name = VIET_silk_road_cuisine_dessert
+			duration = 365
+		}
+	}
+	option = {
+		name = "silkroad.416.t"
+		trigger = {
+			has_character_flag = VIET_sogdian_food_4_5
+		}
+		clr_character_flag = VIET_sogdian_food_4_5
+		add_character_modifier = {
+			name = VIET_silk_road_cuisine_dessert
+			duration = 365
+		}
+	}	
+}
+
+### SOGDIAN FAIR EVENTS SARTAPAWS ###
+
+
+# sartapaw 1
+character_event = {
+	id = silkroad.417
+	desc = silkroad.417.desc
+	picture = GFX_evt_desert_serindian
+	
+	is_triggered_only = yes
+	
+	option = { #talk
+		name = "silkroad.417.a"
+		random = {
+			change_diplomacy = 1
+			chance = 25
+		}
+		prestige = 10
+	}
+}
+# sartapaw 2
+character_event = {
+	id = silkroad.418
+	desc = silkroad.418.desc
+	picture = GFX_evt_village_at_night_sinic
+	
+	is_triggered_only = yes
+	
+	option = { #talk
+		name = "silkroad.418.a"
+		random = {
+			change_intrigue = 1
+			chance = 25
+		}
+		prestige = 10
+	}
+}
+# sartapaw 3
+character_event = {
+	id = silkroad.419
+	desc = silkroad.419.desc
+	picture = GFX_evt_wafrica_gold
+	
+	is_triggered_only = yes
+	
+	option = { #talk
+		name = "silkroad.419.a"
+		random = {
+			change_stewardship = 1
+			chance = 25
+		}
+		prestige = 10
+	}
+}
+# sartapaw 4
+character_event = {
+	id = silkroad.420
+	desc = silkroad.420.desc
+	picture = GFX_evt_small_town
+	
+	is_triggered_only = yes
+	
+	option = { #talk
+		name = "silkroad.420.a"
+		random = {
+			change_learning = 1
+			chance = 25
+		}
+		prestige = 10
+	}
+}
+
+
+### SOGDIAN FAIR EVENTS FAIR OF MAX ###
+
+
+
+# Buddhist monks
+character_event = {
+	id = silkroad.422
+	desc = silkroad.422.desc
+	picture = GFX_evt_monk_eastern_group
+	
+	is_triggered_only = yes
+	
+	option = { #talk
+		name = "silkroad.422.a"
+		if = {
+			limit = {
+				NOT = { trait = sympathy_indian }
+				NOT = { religion = buddhist }
+			}
+			random = {
+				add_trait = sympathy_indian
+				chance = 25
+			}
+		}
+		if = {
+			limit = {
+				trait = sympathy_indian
+			}
+			prestige = 5
+		}
+		if = {
+			limit = {
+				religion = buddhist
+			}
+			piety = 5
+		}
+	}
+	option = { #ignore
+		name = "silkroad.422.b"
+		if = {
+			limit = {
+				NOT = { religion = buddhist }
+			}
+			piety = 5
+		}
+		if = {
+			limit = {
+				religion = buddhist
+			}
+			random = {
+				add_trait = cynical
+				chance = 20
+			}
+		}
+	}
+}
+
+# Hindu Holy Man
+character_event = {
+	id = silkroad.423
+	desc = silkroad.423.desc
+	picture = GFX_evt_monk_eastern_group
+	
+	is_triggered_only = yes
+	
+	option = { #talk
+		name = "silkroad.423.a"
+		if = {
+			limit = {
+				NOT = { trait = sympathy_indian }
+				NOT = { religion_group = indian_group }
+			}
+			random = {
+				add_trait = sympathy_indian
+				chance = 25
+			}
+		}
+		if = {
+			limit = {
+				trait = sympathy_indian
+			}
+			prestige = 5
+		}
+		if = {
+			limit = {
+				religion = hindu
+			}
+			piety = 5
+		}
+	}
+	option = { #ignore
+		name = "silkroad.423.b"
+		if = {
+			limit = {
+				NOT = { religion = hindu }
+			}
+			piety = 5
+		}
+		if = {
+			limit = {
+				religion = hindu
+			}
+			random = {
+				add_trait = cynical
+				chance = 20
+			}
+		}
+	}
+}
+
+# Nestorian crosses
+character_event = {
+	id = silkroad.424
+	desc = silkroad.424.desc
+	picture = GFX_evt_jerusalem
+	
+	is_triggered_only = yes
+	
+	option = { #talk
+		name = "silkroad.424.a"
+		if = {
+			limit = {
+				NOT = { trait = sympathy_christendom }
+				NOT = { religion_group = christian }
+			}
+			random = {
+				add_trait = sympathy_christendom
+				chance = 25
+			}
+		}
+		if = {
+			limit = {
+				trait = sympathy_christendom
+			}
+			prestige = 5
+		}
+		if = {
+			limit = {
+				religion_group = christian
+			}
+			piety = 5
+		}
+	}
+	option = { #ignore
+		name = "silkroad.424.b"
+		if = {
+			limit = {
+				NOT = { religion_group = christian }
+			}
+			piety = 5
+		}
+		if = {
+			limit = {
+				religion_group = christian
+			}
+			random = {
+				add_trait = cynical
+				chance = 20
+			}
+		}
+	}
+}
+
+# Muslim prayer
+character_event = {
+	id = silkroad.425
+	desc = silkroad.425.desc
+	picture = GFX_evt_trade_post_republic_muslim
+	
+	is_triggered_only = yes
+	
+	option = { #talk
+		name = "silkroad.425.a"
+		trigger = {
+			NOT = { religion_group = muslim }
+		}
+		if = {
+			limit = {
+				NOT = { trait = sympathy_islam }
+				#NOT = { religion_group = muslim }
+			}
+			random = {
+				add_trait = sympathy_islam
+				chance = 25
+			}
+		}
+		if = {
+			limit = {
+				trait = sympathy_islam
+			}
+			prestige = 5
+		}
+		#if = {
+		#	limit = {
+		#		religion_group = muslim
+		#	}
+		#	piety = 5
+		#}
+	}	
+	option = { #ignore
+		name = "silkroad.425.b"
+		if = {
+			limit = {
+				NOT = { religion_group = muslim }
+			}
+			piety = 5
+		}
+		if = {
+			limit = {
+				religion_group = muslim
+			}
+			random = {
+				add_trait = cynical
+				chance = 20
+			}
+		}
+	}
+	option = { #join them
+		name = "silkroad.425.c"
+		trigger = {
+			religion_group = muslim
+		}
+		piety = 5
+	}
+}
+
+# Pagan idols
+character_event = {
+	id = silkroad.426
+	desc = silkroad.426.desc
+	picture = GFX_evt_silk_road
+	
+	is_triggered_only = yes
+	
+	option = { #talk
+		name = "silkroad.426.a"
+		trigger = {
+			NOT = { religion_group = pagan_group }
+		}
+		if = {
+			limit = {
+				NOT = { trait = sympathy_pagans }
+				NOT = { religion_group = pagan_group }
+			}
+			random = {
+				add_trait = sympathy_pagans
+				chance = 25
+			}
+		}
+		if = {
+			limit = {
+				trait = sympathy_pagans
+			}
+			prestige = 5
+		}
+		if = {
+			limit = {
+				religion_group = pagan_group
+			}
+			piety = 5
+		}
+	}	
+	option = { #ignore
+		name = "silkroad.426.b"
+		if = {
+			limit = {
+				NOT = { religion_group = pagan_group }
+			}
+			piety = 5
+		}
+		if = {
+			limit = {
+				religion_group = pagan_group
+			}
+			random = {
+				add_trait = cynical
+				chance = 20
+			}
+		}
+	}
+	option = { #join them
+		name = "silkroad.426.c"
+		trigger = {
+			NOT = { religion_group = pagan_group }
+		}
+		piety = 5
+	}
+}
+
+# Zoroastrian idols
+character_event = {
+	id = silkroad.456
+	desc = silkroad.456.desc
+	picture = GFX_evt_silk_road
+	
+	is_triggered_only = yes
+	
+	option = { #talk
+		name = "silkroad.456.a"
+		trigger = {
+			NOT = { religion_group = zoroastrian_group }
+		}
+		if = {
+			limit = {
+				NOT = { trait = sympathy_zoroastrianism }
+				NOT = { religion_group = zoroastrian_group }
+			}
+			random = {
+				add_trait = sympathy_zoroastrianism
+				chance = 25
+			}
+		}
+		if = {
+			limit = {
+				trait = sympathy_zoroastrianism
+			}
+			prestige = 5
+		}
+		if = {
+			limit = {
+				religion_group = zoroastrian_group
+			}
+			piety = 5
+		}
+	}	
+	option = { #ignore
+		name = "silkroad.456.b"
+		if = {
+			limit = {
+				NOT = { religion_group = zoroastrian_group }
+			}
+			piety = 5
+		}
+		if = {
+			limit = {
+				religion_group = zoroastrian_group
+			}
+			random = {
+				add_trait = cynical
+				chance = 20
+			}
+		}
+	}
+	option = { #whatever
+		name = "silkroad.456.c"
+		trigger = {
+			NOT = { religion_group = zoroastrian_group }
+		}
+	}
+}
+
+# Jewish debates
+character_event = {
+	id = silkroad.427
+	desc = silkroad.427.desc
+	picture = GFX_evt_synagogue
+	
+	is_triggered_only = yes
+	
+	option = { #talk
+		name = "silkroad.427.a"
+		trigger = {
+			NOT = { religion_group = jewish_group }
+		}
+		if = {
+			limit = {
+				NOT = { trait = sympathy_judaism }
+				NOT = { religion_group = jewish_group }
+			}
+			random = {
+				add_trait = sympathy_judaism
+				chance = 25
+			}
+		}
+		if = {
+			limit = {
+				trait = sympathy_judaism
+			}
+			prestige = 5
+		}
+		if = {
+			limit = {
+				religion_group = jewish_group
+			}
+			piety = 5
+		}
+	}	
+	option = { #ignore
+		name = "silkroad.427.b"
+		if = {
+			limit = {
+				NOT = { religion_group = jewish_group }
+			}
+			piety = 5
+		}
+		if = {
+			limit = {
+				religion_group = jewish_group
+			}
+			random = {
+				add_trait = cynical
+				chance = 20
+			}
+		}
+	}
+	option = { #join them
+		name = "silkroad.427.c"
+		tooltip_info = learning
+		trigger = {
+			learning = 13
+		}
+		prestige = 5
+	}
+}
+
+### SOGDIAN FAIR EVENTS TIRMAH FAIR ###
+
+
+# What is the Tirmah Fair?
+character_event = {
+	id = silkroad.428
+	desc = silkroad.428.desc
+	picture = GFX_evt_silk_road
+	
+	is_triggered_only = yes
+	
+	option = { #ok
+		name = "silkroad.428.a"
+		prestige = 2
+	}	
+	option = { #ok
+		name = "silkroad.428.b"
+		piety = 2
+	}
+}
+
+# Bought a useless product
+character_event = {
+	id = silkroad.429
+	desc = silkroad.429.desc
+	picture = GFX_evt_bad_news
+	
+	is_triggered_only = yes
+	
+	option = { #ok
+		name = "silkroad.429.a"
+		wealth = -5
+		prestige = -5
+		add_character_modifier = {
+			name = VIET_tirmah_fair_tricked
+			duration = 365
+		}
+	}	
+	option = { #ok
+		name = "silkroad.429.b"
+		trigger = {
+			OR = {
+				trait = sartapaw
+				stewardship = 11
+				intrigue = 15
+				diplomacy = 13
+			}
+		}
+		if = {
+			limit = {
+				NOT = { diplomacy = 12 }
+			}
+			random = {
+				wealth = -5
+				chance = 40
+			}
+		}
+		if = {
+			limit = {
+				diplomacy = 12
+			}
+			random = {
+				wealth = -5
+				chance = 20
+			}
+		}
+		random_list = {
+			50 = { prestige = -4 }
+			20 = { change_intrigue = 1 }
+			10 = { change_stewardship = 1 }
+			20 = { change_diplomacy = 1 }
+		}
+		add_character_modifier = {
+			name = VIET_tirmah_fair_tricker
+			duration = 365
+		}
+	}
+}
+
+# Toothbrush
+character_event = {
+	id = silkroad.430
+	desc = silkroad.430.desc
+	picture = GFX_evt_silk_road
+	
+	is_triggered_only = yes
+	
+	option = { #ok
+		name = "silkroad.430.a"
+		prestige = 2
+	}
+}
+
+# Courtier tricked
+character_event = {
+	id = silkroad.431
+	desc = silkroad.431.desc
+	picture = GFX_evt_silk_road
+	
+	is_triggered_only = yes
+	
+	option = { #ok
+		name = "silkroad.431.a"
+		FROM = { character_event = { id = silkroad.457 } }
+	}
+}
+
+# Courtier tricked
+character_event = {
+	id = silkroad.457
+	desc = silkroad.457.desc
+	picture = GFX_evt_courtiers_talking
+	
+	is_triggered_only = yes
+	
+	option = { #ok
+		name = "silkroad.457.a"
+		FROM = {
+			prestige = -5
+			wealth = -5
+		}
+	}
+}
+
+### SOGDIAN FAIR EVENTS MXYRH FAIR ###
+
+# Stolen setup
+character_event = {
+	id = silkroad.432
+	#desc = silkroad.432.desc
+	#picture = GFX_evt_silk_road
+	
+	hide_window = yes
+	
+	is_triggered_only = yes
+	
+	immediate = {
+		if = {
+			limit = {
+				NOT = { intrigue = 10 }
+			}
+			random_list = {
+				60 = { set_character_flag = VIET_mxyrh_stolen }
+				40 = { set_character_flag = VIET_mxyrh_not_stolen }
+			}
+		}
+		if = {
+			limit = {
+				intrigue = 10
+				NOT = { intrigue = 15 }
+			}
+			random_list = {
+				45 = { set_character_flag = VIET_mxyrh_stolen }
+				55 = { set_character_flag = VIET_mxyrh_not_stolen }
+			}
+		}
+		if = {
+			limit = {
+				intrigue = 15
+			}
+			random_list = {
+				33 = { set_character_flag = VIET_mxyrh_stolen }
+				67 = { set_character_flag = VIET_mxyrh_not_stolen }
+			}
+		}
+		character_event = { id = silkroad.433 }
+	}
+}
+
+# Stolen
+character_event = {
+	id = silkroad.433
+	desc = silkroad.433.desc
+	picture = GFX_evt_courtiers_talking
+	
+	is_triggered_only = yes
+	
+	option = { #ok
+		name = "silkroad.433.a"
+		trigger = {
+			has_character_flag = VIET_mxyrh_stolen
+		}
+		random_courtier = {
+			limit = {
+				NOT = { trait = incapable }
+			}
+			prestige = 5
+		}
+		prestige = -5
+		clr_character_flag = VIET_mxyrh_stolen
+	}	
+	option = { #ok
+		name = "silkroad.433.b"
+		trigger = {
+			has_character_flag = VIET_mxyrh_not_stolen
+		}
+		random_courtier = {
+			limit = {
+				NOT = { trait = incapable }
+			}
+			prestige = -5
+		}
+		prestige = 5
+		clr_character_flag = VIET_mxyrh_not_stolen
+	}
+}
+
+# Real Thief
+character_event = {
+	id = silkroad.434
+	desc = silkroad.434.desc
+	picture = GFX_evt_emissary
+	
+	is_triggered_only = yes
+	
+	option = { #ok
+		name = "silkroad.434.a"
+		random = {
+			add_trait = just
+			chance = 15
+		}
+	}	
+	option = { #ok
+		name = "silkroad.434.b"
+		random = {
+			add_trait = trusting
+			chance = 10
+		}
+	}
+}
+
+# Real Thief 2
+character_event = {
+	id = silkroad.435
+	desc = silkroad.435.desc
+	picture = GFX_evt_castle_construction
+	
+	is_triggered_only = yes
+	
+	option = { #ok
+		name = "silkroad.435.a"
+		random_list = {
+			40 = { wealth = -2 }
+			30 = { wealth = -4 }
+			20 = { wealth = -8 }
+			10 = { wealth = -16 }
+		}
+	}
+}
+
+### SOGDIAN FAIR REGIONAl/ETHNIC EVENTS ###
+
+# Karghalik Baicao
+character_event = {
+	id = silkroad.436
+	desc = silkroad.436.desc
+	picture = GFX_evt_skyrim_forest
+	
+	is_triggered_only = yes
+	
+	option = { #ok
+		name = "silkroad.436.a"
+		add_character_modifier = {
+			name = VIET_sogdian_fair_baicao
+			duration = 730
+		}
+		wealth = -5
+	}	
+	option = { #ok
+		name = "silkroad.436.b"
+		add_character_modifier = {
+			name = VIET_sogdian_fair_didnt_purchase
+			duration = 365
+		}
+	}
+}
+
+# Horses of Barkol
+character_event = {
+	id = silkroad.437
+	desc = silkroad.437.desc
+	picture = GFX_evt_journey_to_spirit_world_tengri_pagan
+	
+	is_triggered_only = yes
+	
+	option = { #ok
+		name = "silkroad.437.a"
+		add_character_modifier = {
+			name = VIET_sogdian_fair_horses
+			duration = 730
+		}
+		wealth = -10
+	}	
+	option = { #ok
+		name = "silkroad.437.b"
+		add_character_modifier = {
+			name = VIET_sogdian_fair_didnt_purchase
+			duration = 365
+		}
+	}
+}
+
+# Fergana Grapes and Fruits
+character_event = {
+	id = silkroad.438
+	desc = silkroad.438.desc
+	picture = GFX_evt_silk_road
+	
+	is_triggered_only = yes
+	
+	option = { #ok
+		name = "silkroad.438.a"
+		add_character_modifier = {
+			name = VIET_sogdian_fair_fruits
+			duration = 730
+		}
+		wealth = -2
+	}		
+	option = { #ok
+		name = "silkroad.438.b"
+		trigger = {
+			NOT = { religion_group = muslim }
+			trait = zealous
+		}
+		add_character_modifier = {
+			name = VIET_sogdian_fair_wines
+			duration = 1095
+		}
+		wealth = -12
+		if = {
+			limit = {
+				religion_group = muslim
+			}
+			piety = -5
+		}
+	}	
+	option = { #ok
+		name = "silkroad.438.c"
+		add_character_modifier = {
+			name = VIET_sogdian_fair_didnt_purchase
+			duration = 365
+		}
+	}
+}
+
+# Kucha Music
+character_event = {
+	id = silkroad.439
+	desc = silkroad.439.desc
+	picture = GFX_evt_jugglers
+	
+	is_triggered_only = yes
+	
+	option = { #ok
+		name = "silkroad.439.a"
+		add_character_modifier = {
+			name = VIET_good_music
+			duration = 365
+		}
+	}
+}
+
+# Baluka Haircloth
+character_event = {
+	id = silkroad.440
+	desc = silkroad.440.desc
+	picture = GFX_evt_silk_road
+	
+	is_triggered_only = yes
+	
+	option = { #ok
+		name = "silkroad.440.a"
+		add_character_modifier = {
+			name = VIET_sogdian_fair_haircloth
+			duration = 1095
+		}
+		wealth = -3
+	}	
+	option = { #ok
+		name = "silkroad.440.b"
+		add_character_modifier = {
+			name = VIET_sogdian_fair_didnt_purchase
+			duration = 365
+		}
+	}
+}
+
+# Samarkand Watermelons
+character_event = {
+	id = silkroad.441
+	desc = silkroad.441.desc
+	picture = GFX_evt_VIET_food
+	
+	is_triggered_only = yes
+	
+	option = { #ok
+		name = "silkroad.441.a"
+		add_character_modifier = {
+			name = VIET_sogdian_fair_fruits
+			duration = 365
+		}
+		wealth = -4
+	}	
+	option = { #ok
+		name = "silkroad.441.b"
+		add_character_modifier = {
+			name = VIET_sogdian_fair_didnt_purchase
+			duration = 365
+		}
+	}
+}
+
+# Khudjend Juice
+character_event = {
+	id = silkroad.442
+	desc = silkroad.442.desc
+	picture = GFX_evt_VIET_food
+	
+	is_triggered_only = yes
+	
+	option = { #ok
+		name = "silkroad.442.a"
+		add_character_modifier = {
+			name = VIET_sogdian_fair_drink
+			duration = 365
+		}
+		wealth = -1
+	}	
+	option = { #ok
+		name = "silkroad.442.b"
+		add_character_modifier = {
+			name = VIET_sogdian_fair_drink
+			duration = 365
+		}
+		wealth = -1
+		random = {
+			add_trait = proud
+			chance = 5
+		}
+	}
+}
+
+# Kipchak Fermented Honey
+character_event = {
+	id = silkroad.443
+	desc = silkroad.443.desc
+	picture = GFX_evt_silk_road
+	
+	is_triggered_only = yes
+	
+	option = { #ok
+		name = "silkroad.443.a"
+		add_character_modifier = {
+			name = VIET_sogdian_fair_drink
+			duration = 365
+		}
+		wealth = -1
+	}	
+	option = { #ok
+		name = "silkroad.443.b"
+		trigger = {
+			culture = cuman
+		}
+		add_character_modifier = {
+			name = VIET_sogdian_fair_drink
+			duration = 365
+		}
+		wealth = -1
+		#add_character_modifier = {
+		#	name = VIET_sogdian_fair_didnt_purchase
+		#	duration = 365
+		#}
+	}	
+	option = { #ok
+		name = "silkroad.443.c"
+		add_character_modifier = {
+			name = VIET_sogdian_fair_didnt_purchase
+			duration = 365
+		}
+	}
+}
+
+# Old Scholar's Books
+character_event = {
+	id = silkroad.444
+	desc = silkroad.444.desc
+	picture = GFX_evt_book_carolingian_script
+	
+	is_triggered_only = yes
+	
+	option = { #ok
+		name = "silkroad.444.a"
+		random_list = {
+			10 = { economy_techpoints = 40 }
+			10 = { culture_techpoints = 40 }
+			10 = { military_techpoints = 40 }
+			15 = { economy_techpoints = 80 }
+			15 = { culture_techpoints = 80 }
+			15 = { military_techpoints = 80 }
+			25 = { }
+		}
+		wealth = -10
+	}	
+	option = { #ok
+		name = "silkroad.444.b"
+		tooltip_info = learning
+		trigger = {
+			learning = 13
+			NOT = { trait = scholar }
+		}
+		random_list = {
+			25 = { }
+			10 = { change_learning = 3 }
+			15 = { change_learning = 2 }
+			50 = { change_learning = 1 }
+		}
+		wealth = -10
+	}	
+	option = { #ok
+		name = "silkroad.444.b"
+		tooltip_info = scholar
+		trigger = {
+			trait = scholar
+		}
+		random_list = {
+			25 = { }
+			10 = { change_learning = 3 }
+			15 = { change_learning = 2 }
+			50 = { change_learning = 1 }
+		}
+		wealth = -10
+	}	
+	option = { #ok
+		name = "silkroad.444.c"
+		add_character_modifier = {
+			name = VIET_sogdian_fair_didnt_purchase
+			duration = 365
+		}
+	}
+}
+
+# Ostrich Eggs
+character_event = {
+	id = silkroad.445
+	desc = silkroad.445.desc
+	picture = GFX_evt_silk_road
+	
+	is_triggered_only = yes
+	
+	option = { #ok
+		name = "silkroad.445.a"
+		add_character_modifier = {
+			name = VIET_sogdian_fair_exotic_food
+			duration = 365
+		}
+		wealth = -3
+	}	
+	option = { #ok
+		name = "silkroad.445.b"
+		add_character_modifier = {
+			name = VIET_sogdian_fair_didnt_purchase
+			duration = 365
+		}
+	}
+}
+
+# Fergana's heavenly horses
+character_event = {
+	id = silkroad.446
+	desc = silkroad.446.desc
+	picture = GFX_evt_journey_to_spirit_world_tengri_pagan
+	
+	is_triggered_only = yes
+	
+	option = { #ok
+		name = "silkroad.446.a"
+		add_character_modifier = {
+			name = VIET_sogdian_fair_horses
+			duration = 365
+		}
+		wealth = -10
+	}	
+	option = { #ok
+		name = "silkroad.446.b"
+		add_character_modifier = {
+			name = VIET_sogdian_fair_didnt_purchase
+			duration = 365
+		}
+	}
+}
+
+# Chinese Town, Turfan, City of Pleasures
+character_event = {
+	id = silkroad.447
+	desc = silkroad.447.desc
+	#picture = GFX_evt_brothel_sinic #doesn't exist
+	picture = GFX_evt_brothel
+	
+	is_triggered_only = yes
+	
+	option = { #ok
+		name = "silkroad.447.a"
+		trigger = {
+			OR = {
+				is_female = no
+				AND = {
+					is_female = yes
+					trait = homosexual
+				}
+			}
+		}
+		add_character_modifier = {
+			name = VIET_feeling_sexy
+			duration = 365
+		}
+		prestige = 1
+	}	
+	option = { #ok
+		name = "silkroad.447.b"
+		piety = 1
+	}	
+	option = { #ok
+		name = "silkroad.447.c"
+		add_character_modifier = {
+			name = the_prude
+			duration = 365
+		}
+		prestige = -1
+	}
+}
+
+# Travels
+character_event = {
+	id = silkroad.448
+	desc = silkroad.448.desc
+	picture = GFX_evt_silk_road
+	
+	is_triggered_only = yes
+	
+	option = { #ok
+		name = "silkroad.448.a"
+		add_character_modifier = {
+			name = VIET_dreaming_of_silk_road
+			duration = 1453
+		}		
+	}
+}
+
+# Chinese jade
+character_event = {
+	id = silkroad.449
+	desc = silkroad.449.desc
+	picture = GFX_evt_silk_road
+	
+	is_triggered_only = yes
+	
+	option = { #ok
+		name = "silkroad.449.a"
+		add_character_modifier = {
+			name = VIET_sogdian_fair_jewelry
+			duration = 1453
+		}		
+	}	
+	option = { #ok
+		name = "silkroad.449.b"
+		add_character_modifier = {
+			name = VIET_sogdian_fair_didnt_purchase
+			duration = 365
+		}	
+	}
+}
+
+# Jade or silk?
+character_event = {
+	id = silkroad.450
+	desc = silkroad.450.desc
+	picture = GFX_evt_silk_road
+	
+	is_triggered_only = yes
+	
+	option = { #ok
+		name = "silkroad.450.a"
+		add_character_modifier = {
+			name = VIET_sogdian_fair_jewelry
+			duration = 1453
+		}
+		wealth = -10
+	}	
+	option = { #ok
+		name = "silkroad.450.b"
+		add_character_modifier = {
+			name = VIET_sogdian_fair_silk
+			duration = 1453
+		}
+		wealth = -20
+		prestige = 10
+	}	
+	option = { #ok
+		name = "silkroad.450.c"
+		add_character_modifier = {
+			name = VIET_sogdian_fair_jewelry
+			duration = 1453
+		}
+		add_character_modifier = {
+			name = VIET_sogdian_fair_silk
+			duration = 1453
+		}
+		wealth = -30
+		prestige = 10
+	}	
+	option = { #ok
+		name = "silkroad.450.d"
+		add_character_modifier = {
+			name = VIET_sogdian_fair_didnt_purchase
+			duration = 365
+		}	
+	}
+}
+
+# Jewels
+character_event = {
+	id = silkroad.451
+	desc = silkroad.451.desc
+	picture = GFX_evt_silk_road
+	
+	is_triggered_only = yes
+	
+	option = { #ok
+		name = "silkroad.451.a"
+		add_character_modifier = {
+			name = VIET_sogdian_fair_jewelry
+			duration = 1453
+		}
+		wealth = -10
+	}	
+	option = { #ok
+		name = "silkroad.451.b"
+		add_character_modifier = {
+			name = VIET_sogdian_fair_jewelry
+			duration = 1453
+		}
+		wealth = -10
+	}	
+	option = { #ok
+		name = "silkroad.451.c"
+		add_character_modifier = {
+			name = VIET_sogdian_fair_jewelry
+			duration = 1453
+		}
+		wealth = -10
+	}	
+	option = { #ok
+		name = "silkroad.451.d"
+		add_character_modifier = {
+			name = VIET_sogdian_fair_jewelry
+			duration = 1453
+		}
+		wealth = -10
+	}
+}
+
+# Ivory
+character_event = {
+	id = silkroad.452
+	desc = silkroad.452.desc
+	picture = GFX_evt_silk_road
+	
+	is_triggered_only = yes
+	
+	option = { #ok
+		name = "silkroad.452.a"
+		add_character_modifier = {
+			name = VIET_sogdian_fair_ivory
+			duration = 1453
+		}
+		wealth = -8
+	}	
+	option = { #ok
+		name = "silkroad.452.b"
+		add_character_modifier = {
+			name = VIET_sogdian_fair_didnt_purchase
+			duration = 365
+		}	
+	}	
+	option = { #ok
+		name = "silkroad.452.c"
+		trigger = {
+			NOT = { trait = cruel }
+			NOT = { trait = arbitrary }
+		}
+		random = {
+			add_trait = kind
+			chance = 20
+		}
+		if = {
+			limit = {
+				religion_group = indian_group
+			}
+			piety = 10
+		}
+	}
+}
+
+# Persian rugs
+character_event = {
+	id = silkroad.453
+	desc = silkroad.453.desc
+	picture = GFX_evt_silk_road
+	
+	is_triggered_only = yes
+	
+	option = { #ok
+		name = "silkroad.453.a"
+		add_character_modifier = {
+			name = VIET_sogdian_fair_rugs
+			duration = 1453
+		}
+		wealth = -4
+	}	
+	option = { #ok
+		name = "silkroad.453.b"
+		add_character_modifier = {
+			name = VIET_sogdian_fair_didnt_purchase
+			duration = 365
+		}	
+	}
+}
+
+# Multan Mangoes
+character_event = {
+	id = silkroad.454
+	desc = silkroad.454.desc
+	picture = GFX_evt_silk_road
+	
+	is_triggered_only = yes
+	
+	option = { #ok
+		name = "silkroad.454.a"
+		add_character_modifier = {
+			name = VIET_sogdian_fair_fruits
+			duration = 1453
+		}
+		wealth = -1
+	}	
+	option = { #ok
+		name = "silkroad.454.b"
+		add_character_modifier = {
+			name = VIET_sogdian_fair_didnt_purchase
+			duration = 365
+		}	
+	}
+}
+
+# Spices
+character_event = {
+	id = silkroad.455
+	desc = silkroad.455.desc
+	picture = GFX_evt_silk_road
+	
+	is_triggered_only = yes
+	
+	option = { #ok
+		name = "silkroad.455.a"
+		random_list = {
+			25 = {
+				add_character_modifier = {
+					name = VIET_sogdian_fair_exotic_food
+					duration = 730
+				}
+			}
+			75 = {
+				add_character_modifier = {
+					name = VIET_sogdian_fair_spices
+					duration = 730
+				}
+			}
+		}
+		wealth = -8
+	}	
+	option = { #ok
+		name = "silkroad.455.b"
+		add_character_modifier = {
+			name = VIET_sogdian_fair_didnt_purchase
+			duration = 365
+		}	
+	}
 }

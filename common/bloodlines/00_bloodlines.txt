@@ -1,0 +1,15 @@
+serindia_male = {
+	tocharian_opinion = 5
+	monthly_character_prestige = 0.1
+	inheritance = patrilineal
+	picture = GFX_bloodlines_symbol_lion
+	flags = { bloodline_serindia }
+}
+
+serindia_female = {
+	tocharian_opinion = 5
+	monthly_character_prestige = 0.1
+	inheritance = matrilineal
+	picture = GFX_bloodlines_symbol_lion
+	flags = { bloodline_serindia }
+}

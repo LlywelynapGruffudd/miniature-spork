@@ -1,0 +1,276 @@
+namespace = HFP
+
+#Hansa
+narrative_event = {
+	id = HFP.40000
+	desc = EVTDESC_HFP_40000
+	title = TITLE_HFP_40000
+	picture = GFX_evt_busy_trading_dock_republic
+	is_triggered_only = yes
+
+	option = {
+		name = EVTOPTA_HFP_40000
+		prestige = 500
+	}
+}
+
+#Hansa Notification event
+narrative_event = {
+	id = HFP.40001
+	desc = EVTDESC_HFP_40001
+	title = TITLE_HFP_40001
+	picture = GFX_evt_busy_trading_dock_republic
+	is_triggered_only = yes
+
+	trigger = {
+		NOT = {
+			has_landed_title = k_hansa
+		}
+	}
+
+	option = {
+		name = EVTOPTA_HFP_40001
+	}
+}
+
+#Switzerland
+narrative_event = {
+	id = HFP.40010
+	desc = EVTDESC_HFP_40010
+	title = TITLE_HFP_40010
+	picture = GFX_evt_council
+	border = GFX_event_narrative_frame_diplomacy
+	is_triggered_only = yes
+
+	option = {
+		name = EVTOPTA_HFP_40010
+		prestige = 250
+	}
+}
+
+#Swiss Notifications
+narrative_event = {
+	id = HFP.40012
+	desc = EVTDESC_HFP_40012
+	title = TITLE_HFP_40012
+	picture = GFX_evt_throne_room
+	border = GFX_event_narrative_frame_diplomacy
+	is_triggered_only = yes
+
+	trigger = {
+		NOT = {
+			has_landed_title = k_switzerland
+		}
+	}
+
+	option = {
+		name = EVTOPTA_HFP_40012
+	}
+}
+
+#Merchant Republic Kingdoms 
+narrative_event = {
+    id = HFP.40015
+    desc = EVTDESC_HFP_40015
+    title = EVTTITLE_HFP_40015
+    picture = GFX_evt_busy_trading_dock_republic
+    is_triggered_only = yes
+
+    option = {      
+        name = EVTOPTA_HFP_40015
+
+       	prestige = 250
+    }
+}
+
+# Archduke of Austria
+narrative_event = {
+    id = HFP.40022
+    title = EVTTITLE_HFP_40022
+    desc = {
+        trigger = {
+            e_hre = {
+                OR = {
+                    has_law = succ_feudal_elective
+                    has_law = succ_hre_elective
+                }
+            }
+        }
+        text = EVTDESC_HFP_40022
+    }
+    desc = {
+        trigger = {
+            e_hre = {
+                NOR = {
+                    has_law = succ_feudal_elective
+                    has_law = succ_hre_elective
+                }
+            }
+        }
+        text = EVTDESC_HFP_40022_2
+    }
+    picture = GFX_evt_book_carolingian_script
+    is_triggered_only = yes
+
+    option = {      
+        name = EVTOPTA_HFP_40022
+        trigger = {
+        	has_landed_title = k_austria
+        }
+
+        prestige = 500
+    }
+    option = {      
+        name = EVTOPTB_HFP_40022
+        trigger = {
+        	NOT = {
+        		has_landed_title = k_austria
+        	}
+        }
+    }
+}
+
+
+# Complete Catholic/Fraticelli victory
+narrative_event = {
+    id = HFP.40027
+    title = EVTTITLE_HFP_40027
+    desc = EVTDESC_HFP_40027
+    picture = GFX_evt_crusaders
+    border = GFX_event_narrative_frame_religion
+    is_triggered_only = yes
+
+    option = {      
+        name = EVTOPTA_HFP_40027
+        trigger = {
+            religion_group = christian
+        }
+        if = {
+            limit = {
+                has_landed_title = e_outremer
+            }
+            prestige = 1000
+            if = {
+                limit = {
+                    has_dlc = "Holy Fury"
+                }
+                if = {
+                    limit = {
+                        is_female = yes
+                    }
+                    create_bloodline = {
+                        type = lord_of_outremer
+                        inheritance = matrilineal
+                    }
+                }
+                else = {
+                    create_bloodline = {
+                        type = lord_of_outremer
+                    }
+                }
+                set_bloodline_founder_religion_flag_effect = yes
+            }
+        }
+    }
+    option = {      
+        name = EVTOPTB_HFP_40027
+        trigger = {
+            NOT = {
+                religion_group = christian
+            }
+        }
+
+        ai_chance = {
+            factor = 1
+            trigger = {
+                OR = {
+                    NOT = {
+                        any_liege = {
+                            religion = FROM
+                        }
+                    }
+                    ai = no
+                }
+            }
+        }
+    }
+    option = {
+        name = EVTOPTC_HFP_40027
+        trigger = {
+            religion_group = muslim
+        }
+        religion = FROM
+
+        ai_chance = {
+            trigger = {
+                OR = {
+                    trait = cynical
+                    any_liege = {
+                        religion = FROM
+                    }
+                }
+            }
+            factor = 1
+        }
+    }
+}
+
+
+# Clean up Papal Guards 
+character_event = {
+    id = HFP.40035
+    hide_window = yes
+    is_triggered_only = yes
+
+    immediate = {
+        activate_title = {
+            title = d_papal_guards
+            status = no
+        }
+    }
+}
+
+
+
+# Narrative Event - Grand Stem Duchies in the HRE
+narrative_event = {
+    id = HFP.40038
+    desc = EVTDESC_HFP_40038
+    title = EVTTITLE_HFP_40038
+    picture = GFX_evt_magnificent_castle
+    is_triggered_only = yes
+
+    option = {
+        name = EVTOPTA_HFP_40038
+        trigger = {
+            NOT = {
+                FROM = {
+                    character = ROOT
+                }
+            }
+        }
+    }
+    option = {
+        name = EVTOPTB_HFP_40038
+        trigger = {
+            FROM = {
+                character = ROOT
+            }
+        }
+        prestige = 500
+    }
+}
+
+# The Slavic Union is formed
+narrative_event = {
+    id = HFP.99999
+    title = EVTTITLE_HFP_99999
+    desc = EVTDESC_HFP_99999
+    picture = GFX_evt_pagan_reformation
+    border = GFX_event_narrative_frame_diplomacy
+    is_triggered_only = yes
+
+    option = {      
+        name = EVTOPTA_HFP_99999
+    }
+}

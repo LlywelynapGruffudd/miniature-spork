@@ -1,0 +1,157 @@
+k_amalfi = {
+		color={ 140 200 230 }
+		capital = 935 # Amalfi
+
+		dignity = 20
+
+		allow = {
+			conditional_tooltip = {
+				trigger = {
+					k_amalfi = {
+						is_titular = yes
+					}
+				}
+				k_amalfi = {
+					is_titular = no
+				}
+			}
+			is_republic = yes
+		}
+	}
+
+k_hansa = {
+		color={ 210 210 210 }
+		color2={ 255 255 255 }
+
+		capital = 262 # Lübeck
+	
+		dignity = 200 # Never want the Hanseatic League to change primary title
+	
+		allow = {
+			conditional_tooltip = {
+				trigger = {
+					k_hansa = {
+						is_titular = yes
+					}
+				}
+				k_hansa = {
+					is_titular = no
+				}
+			}
+			is_republic = yes
+		}
+	}
+
+e_outremer = {
+	color={ 180 180 180 }
+	color2={ 255 255 255 }
+
+	capital = 774
+
+	allow = {
+		conditional_tooltip = {
+			trigger = {
+				NOR = {
+					religion = catholic
+					religion = fraticelli
+				}
+			}
+			OR = {
+				religion = catholic
+				religion = fraticelli
+			}
+		}
+		conditional_tooltip = {
+			trigger = {
+				e_outremer = {
+					is_titular = yes
+				}
+			}
+			e_outremer = {
+				is_titular = no
+			}
+		}
+	}
+}
+
+k_switzerland = {
+	color={ 255 80 80 }
+	color2={ 200 50 50 }
+
+	capital = 244 #Bern
+
+	short_name = yes
+
+	allow = {
+		conditional_tooltip = {
+			trigger = {
+				k_switzerland = {
+					is_titular = yes
+				}
+			}
+			k_switzerland = {
+				is_titular = no
+			}
+		}
+	}
+}
+
+d_swiss = {
+	color = { 255 1 1 }
+
+	capital = 246 # Schwyz
+
+	allow = {
+		conditional_tooltip = {
+			trigger = {
+				d_swiss = {
+					is_titular = yes
+				}
+			}
+
+			d_swiss = {
+				is_titular = no
+			}
+		}
+	}
+}
+
+e_lechczechrus = {
+	color={ 0 90 30 }
+	color2={ 255 255 255 }
+	short_name = yes
+
+	capital = 547	#Kiev
+
+	allow = {
+		conditional_tooltip = {
+			trigger = {
+				e_lechczechrus = {
+					is_titular = yes
+				}
+			}
+			e_lechczechrus = {
+				is_titular = no
+			}
+		}
+	}
+}
+
+k_bosnia = {
+	color = { 16 125 74 }
+	culture = bosnian
+	
+	capital = 1971 # Vrhbosna	
+		allow = {
+			conditional_tooltip = {
+				trigger = {
+					k_bosnia = {
+						is_titular = yes
+					}
+				}
+				k_bosnia = {
+					is_titular = no
+				}
+			}	
+		}
+}

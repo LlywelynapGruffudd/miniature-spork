@@ -3937,6 +3937,35 @@ character_event = {
 		name = "silkroad.407.c"
 		if = {
 			limit = {
+				NOT = { trait = sympathy_abrahamics }
+				NOT = { trait = sympathy_anatolians }
+				NOT = { trait = sympathy_east_africans }
+				NOT = { trait = sympathy_arabpagans }
+				NOT = { trait = sympathy_aztecs }
+				NOT = { trait = sympathy_baltics }
+				NOT = { trait = sympathy_bantus }
+				NOT = { trait = sympathy_berbers }
+				NOT = { trait = sympathy_buddhists }
+				NOT = { trait = sympathy_celtics }
+				NOT = { trait = sympathy_chinese }
+				NOT = { trait = sympathy_nordic }
+				NOT = { trait = sympathy_egyptian }
+				NOT = { trait = sympathy_finnish }
+				NOT = { trait = sympathy_graecoroman }
+				NOT = { trait = sympathy_indohellens }
+				NOT = { trait = sympathy_inuit }
+				NOT = { trait = sympathy_luwians }
+				NOT = { trait = sympathy_mande }
+				NOT = { trait = sympathy_manichaeans }
+				NOT = { trait = sympathy_mithraics }
+				NOT = { trait = sympathy_platonics }
+				NOT = { trait = sympathy_palmyrans }
+				NOT = { trait = sympathy_sererics }
+				NOT = { trait = sympathy_slavics }
+				NOT = { trait = sympathy_sol }
+				NOT = { trait = sympathy_tengri }
+				NOT = { trait = sympathy_yazd }
+				NOT = { trait = sympathy_zal }
 				NOT = { trait = sympathy_indian }
 				NOT = { trait = sympathy_judaism }
 				NOT = { trait = sympathy_zoroastrianism }
@@ -3944,33 +3973,34 @@ character_event = {
 				NOT = { trait = sympathy_islam }
 				NOT = { trait = sympathy_christendom }
 			}
+			}
 			random_list = {
 				10 = {
-					add_trait = sympathy_indian
+					add_trait = sympathy_abrahamics
 					modifier = {
 						factor = 0
-						religion_group = indian_group
+						religion_group = abrahamic_group
 					}
 				}
 				10 = {
-					add_trait = sympathy_judaism
+					add_trait = sympathy_anatolians
 					modifier = {
 						factor = 0
-						religion_group = jewish_group
+						religion_group = anatolian_group
 					}
 				}
 				10 = {
-					add_trait = sympathy_zoroastrianism 
+					add_trait = sympathy_east_africans
 					modifier = {
 						factor = 0
-						religion_group = zoroastrian_group
+						religion_group = east_african_group
 					}
 				}
 				10 = {
-					add_trait = sympathy_pagans 
+					add_trait = sympathy_aztecs
 					modifier = {
 						factor = 0
-						religion_group = pagan_group
+						religion_group = aztec_group
 					}
 				}
 				10 = {
@@ -3985,6 +4015,153 @@ character_event = {
 					modifier = {
 						factor = 0
 						religion_group = christian
+					}
+				}
+				10 = {
+					add_trait = sympathy_baltics
+					modifier = {
+						factor = 0
+						religion_group = baltic_group
+					}
+				}
+				10 = {
+					add_trait = sympathy_bantus
+					modifier = {
+						factor = 0
+						religion_group = bantu_group
+					}
+				}
+				10 = {
+					add_trait = sympathy_berbers
+					modifier = {
+						factor = 0
+						religion_group = berber_group
+					}
+				}
+				10 = {
+					add_trait = sympathy_buddhists
+					modifier = {
+						factor = 0
+						religion_group = buddhist_group
+					}
+				}
+				10 = {
+					add_trait = sympathy_celtics 
+					modifier = {
+						factor = 0
+						religion_group = celtic_group
+					}
+				}
+				10 = {
+					add_trait = sympathy_chinese  
+					modifier = {
+						factor = 0
+						religion_group = chinese_group
+					}
+				}
+				10 = {
+					add_trait = sympathy_nordic
+					modifier = {
+						factor = 0
+						religion_group = nordic_group
+					}
+				}
+				10 = {
+					add_trait = sympathy_egyptian
+					modifier = {
+						factor = 0
+						religion_group = egyptian_group
+					}
+				}
+				10 = {
+					add_trait = sympathy_finnish
+					modifier = {
+						factor = 0
+						religion_group = finnish_group
+					}
+				}
+				10 = {
+					add_trait = sympathy_graecoroman
+					modifier = {
+						factor = 0
+						religion_group = graecoroman_group
+					}
+				}
+				10 = {
+					add_trait = sympathy_indohellens
+					modifier = {
+						factor = 0
+						religion_group = indohellen_group
+					}
+				}
+				10 = {
+					add_trait = sympathy_inuit 
+					modifier = {
+						factor = 0
+						religion_group = inuit_group
+					}
+				}
+				10 = {
+					add_trait = sympathy_luwians
+					modifier = {
+						factor = 0
+						religion_group = luwian_group
+					}
+				}
+				10 = {
+					add_trait = sympathy_mande
+					modifier = {
+						factor = 0
+						religion_group = mande_group
+					}
+				}
+				10 = {
+					add_trait = sympathy_manichaeans  
+					modifier = {
+						factor = 0
+						religion_group = manichaean_group
+					}
+				}
+				10 = {
+					add_trait = sympathy_mithraics
+					modifier = {
+						factor = 0
+						religion_group = mithraic_group
+					}
+				}
+				10 = {
+					add_trait = sympathy_platonics
+					modifier = {
+						factor = 0
+						religion_group = platonic_group
+					}
+				}
+				10 = {
+					add_trait = sympathy_sererics
+					modifier = {
+						factor = 0
+						religion_group = sereric_group
+					}
+				}
+				10 = {
+					add_trait = sympathy_slavics
+					modifier = {
+						factor = 0
+						religion_group = slavic_group
+					}
+				}
+				10 = {
+					add_trait = sympathy_sol
+					modifier = {
+						factor = 0
+						religion_group = sol_group
+					}
+				}
+				10 = {
+					add_trait = sympathy_tengri 
+					modifier = {
+						factor = 0
+						religion_group = tengri_group
 					}
 				}
 				150 = { }

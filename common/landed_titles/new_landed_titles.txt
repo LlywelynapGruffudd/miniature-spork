@@ -1,6 +1,6 @@
 k_amalfi = {
 		color={ 140 200 230 }
-		capital = 935 # Amalfi
+		capital = 1555 # Amalfi
 
 		dignity = 20
 
@@ -23,7 +23,7 @@ k_hansa = {
 		color={ 210 210 210 }
 		color2={ 255 255 255 }
 
-		capital = 262 # Lübeck
+		capital = 327 # Lübeck
 	
 		dignity = 200 # Never want the Hanseatic League to change primary title
 	
@@ -78,7 +78,7 @@ k_switzerland = {
 	color={ 255 80 80 }
 	color2={ 200 50 50 }
 
-	capital = 244 #Bern
+	capital = 215 #Bern
 
 	short_name = yes
 
@@ -99,7 +99,7 @@ k_switzerland = {
 d_swiss = {
 	color = { 255 1 1 }
 
-	capital = 246 # Schwyz
+	capital = 248 # Schwyz
 
 	allow = {
 		conditional_tooltip = {
@@ -121,7 +121,7 @@ e_lechczechrus = {
 	color2={ 255 255 255 }
 	short_name = yes
 
-	capital = 547	#Kiev
+	capital = 536	#Kiev
 
 	allow = {
 		conditional_tooltip = {

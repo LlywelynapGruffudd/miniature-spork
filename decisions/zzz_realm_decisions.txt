@@ -622,10 +622,8 @@ decisions = {
 				###Slavic kingdoms go to LCR
 				k_bohemia = { de_jure_liege = e_lechczechrus }
 				k_poland = { de_jure_liege = e_lechczechrus }
-				k_galicia-volhynia = { de_jure_liege = e_lechczechrus }
+				k_moravia = { de_jure_liege = e_lechczechrus }
 				k_ruthenia = { de_jure_liege = e_lechczechrus }
-				k_chernigov = { de_jure_liege = e_lechczechrus }
-				k_vladimir = { de_jure_liege = e_lechczechrus }
 				k_rus = { de_jure_liege = e_lechczechrus }
 				
 				###If you also completely control Pomerania, it's added to LCR as well
@@ -652,6 +650,84 @@ decisions = {
 		}
 	}
 
+	create_russian_empire = {
+		is_high_prio = yes
+		only_playable = yes
+		ai_check_interval = 120
+		
+		potential = {
+			e_russian_empire = {
+				is_titular = yes
+			}
+			e_russian_empire = {
+				has_holder = no
+			}
+			culture = russian
+			has_landed_title = e_russia
+		}
+		
+		allow = {
+			is_adult = yes
+			independent = yes
+			war = no
+			prestige = 5000
+			completely_controls = k_ruthenia
+			completely_controls = k_rus
+			completely_controls = k_gardariki
+			completely_controls = k_perm
+			completely_controls = k_bulgar
+			completely_controls = k_khazaria
+			completely_controls = k_alania
+			completely_controls = k_taurica
+		}
+		
+		effect = {
+			activate_title = { title = e_russian_empire status = yes }
+			e_russia = {
+				show_scope_change = no
+				e_russian_empire = {
+					show_scope_change = no
+					grant_title = ROOT
+					hidden_tooltip = { make_primary_title = yes }
+					copy_title_laws = PREV
+				}
+				hidden_tooltip = {
+					any_direct_de_jure_vassal_title = {
+						de_jure_liege = e_russian_empire
+					}
+					destroy_landed_title = THIS
+				}
+			}
+			if = {
+				limit = { has_nickname = no }
+				give_nickname = nick_the_great
+			}
+			activate_title = { title = e_russia status = no }
+			custom_tooltip = { text = russian_empire_cheaper_tribal_upgrades }
+			
+			k_ruthenia = { de_jure_liege = e_russian_empire }
+			k_rus = { de_jure_liege = e_russian_empire }
+			k_gardariki = { de_jure_liege = e_russian_empire }
+			k_perm = { de_jure_liege = e_russian_empire }
+			k_bulgar = { de_jure_liege = e_russian_empire }
+			k_khazaria = { de_jure_liege = e_russian_empire }
+			k_alania = { de_jure_liege = e_russian_empire }
+			k_taurica = { de_jure_liege = e_russian_empire }
+			hidden_tooltip = {
+				character_event = { id = HFP.16001 }
+				any_playable_ruler = {
+					limit = {
+						ai = no
+					}
+					character_event = { id = HFP.16002 }
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+
 	form_the_outremer = {
 		is_high_prio = yes
 		only_playable = yes
@@ -660,7 +736,6 @@ decisions = {
 		potential = {
 			OR = {
 				religion = catholic
-				religion = fraticelli
 			}
 			any_demesne_title = {
 				OR = {
@@ -673,6 +748,7 @@ decisions = {
 				has_landed_title = e_byzantium
 				has_landed_title = e_roman_empire
 				has_landed_title = e_hre
+				has_landed_title = e_roman
 			}
 			e_outremer = {
 				is_titular = yes
@@ -716,22 +792,34 @@ decisions = {
 			if = {
 				limit = {
 					OR = {
-						d_shiite = {
+						e_shiite = {
 							has_holder = yes
 						}
-						d_sunni = {
+						e_sunni = {
 							has_holder = yes
 						}
-						d_ibadi = {
+						e_umayyad = {
 							has_holder = yes
 						}
-						d_kharijite = {
+						d_athari = {
 							has_holder = yes
 						}
-						d_yazidi = {
+						d_ashari = {
 							has_holder = yes
 						}
-						d_hurufi = {
+						d_haruri_caliphate = {
+							has_holder = yes
+						}
+						d_maturidi = {
+							has_holder = yes
+						}
+						d_murjiah = {
+							has_holder = yes
+						}
+						d_mutazil = {
+							has_holder = yes
+						}
+						d_zahiri = {
 							has_holder = yes
 						}
 					}
@@ -740,11 +828,16 @@ decisions = {
 				custom_tooltip = {
 					text = destroy_muslim_leadership
 
-					destroy_landed_title = d_shiite
-					destroy_landed_title = d_sunni
-					destroy_landed_title = d_ibadi
-					destroy_landed_title = d_kharijite
-					destroy_landed_title = d_hurufi
+					destroy_landed_title = e_shiite
+					destroy_landed_title = e_sunni
+					destroy_landed_title = e_umayyad
+					destroy_landed_title = d_athari
+					destroy_landed_title = d_ashari
+					destroy_landed_title = d_haruri_caliphate
+					destroy_landed_title = d_maturidi
+					destroy_landed_title = d_murjiah
+					destroy_landed_title = d_mutazil
+					destroy_landed_title = d_zahiri
 				}
 			}
 
@@ -788,6 +881,8 @@ decisions = {
 			}
 		}
 	}
+
+	
 
 	### POPE RELATED EVENTS ### 
 	recreate_the_papal_guards = {

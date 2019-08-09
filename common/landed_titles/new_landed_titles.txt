@@ -137,21 +137,15 @@ e_lechczechrus = {
 	}
 }
 
-k_bosnia = {
-	color = { 16 125 74 }
-	culture = bosnian
+e_russian_empire = {	
+	color={ 220 60 70 }
+	color2={ 255 255 255 }
 	
-	capital = 1971 # Vrhbosna	
-		allow = {
-			conditional_tooltip = {
-				trigger = {
-					k_bosnia = {
-						is_titular = yes
-					}
-				}
-				k_bosnia = {
-					is_titular = no
-				}
-			}	
-		}
+	capital = 587 # Vladimir
+	
+	culture = russian
+	
+	allow = {
+		always = no # Only created through special event
+	}
 }

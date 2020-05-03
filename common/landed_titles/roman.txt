@@ -685,7 +685,7 @@ e_roman = {
 		d_lombardia = {
 			color = { 200 133 222 }
 			capital = 255 #Mediolanum
-			
+			lombard = "Lombardy"
 			c_lombardia = {
 				color = { 251 237 226 }
 				
@@ -712,7 +712,8 @@ e_roman = {
 			}
 			c_trent = {
 				color = { 253 239 228 }
-				
+				german = "Trient"
+				italian = "Trento"
 				b_trento = {}
 				b_brixen = {}
 				b_bozen = {}
@@ -818,9 +819,16 @@ e_roman = {
 			c_istria = {
 				color = { 224 249 237 }
 			
-				b_mitterburg = {}
+				b_mitterburg = {croatian = "Pazin"
+					serbian = "Pazin"
+					carantanian = "Pazin"
+					bosnian = "Pazin"
+					italian = "Pisino"
+					greek = "Pisino"}
 				b_trieste = {}
-				b_fiume = {}
+				b_fiume = {croatian = "Rijeka"
+					carantanian = "Reka"
+					bosnian = "Rijeka"}
 				b_lovrana = {}
 				b_wolauska = {}
 				b_karstberg = {}
@@ -829,9 +837,16 @@ e_roman = {
 			}
 			c_krain = {
 				color = { 244 227 180 }
-				
-				b_gorz = {}
-				b_krainburg = {}
+				croatian = "Kranj"
+				carantanian = "Kranj"
+				bosnian = "Kranj"
+				german = "Krain"
+				b_gorz = {carantanian = "Gorica"
+					croatian = "Gorizia"
+					bosnian = "Gorizia"}
+				b_krainburg = {croatian = "Kranj"
+					carantanian = "Kranj"
+					bosnian = "Kranj"}
 				b_gurk = {}
 				b_stain = {}
 				b_guetenegg = {}
@@ -841,9 +856,9 @@ e_roman = {
 			}
 			c_karnten = {
 				color = { 244 247 160 }
-				
-				b_villach = {}
-				b_klagenfurt = {}
+				carantanian = "Beljak"
+				b_villach = {carantanian = "Beljak"}
+				b_klagenfurt = {carantanian = "Celovec"}
 				b_ossiach = {}
 				b_laibach = {}
 				b_treffen = {}
@@ -853,9 +868,9 @@ e_roman = {
 			}		
 			c_aquileia = {
 				color = { 37 140 129 }
-				
-				b_aquileia = {}
-				b_udine = {}
+				carantanian = "Oglej"
+				b_aquileia = {carantanian = "Oglej"}
+				b_udine = {carantanian = "Videm"}
 				b_friuli = {}
 				b_motta = {}
 				b_concordia = {}

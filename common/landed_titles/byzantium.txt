@@ -28,26 +28,6 @@ e_byzantium = {
 			}
 		}
 	}
-	k_amalfi = {
-		color={ 140 200 230 }
-		capital = 1555 # Amalfi
-
-		dignity = 20
-
-		allow = {
-			conditional_tooltip = {
-				trigger = {
-					k_amalfi = {
-						is_titular = yes
-					}
-				}
-				k_amalfi = {
-					is_titular = no
-				}
-			}
-			is_republic = yes
-		}
-	}
 	
 	k_byzantium = {
 		color = { 165 11 111 }
@@ -117,7 +97,6 @@ e_byzantium = {
 				}
 				b_galata = {}
 				b_hagiasophia = {
-				pentarchy = yes
 				turkish = "Ayasofya"
 				}
 				b_blachernae = {
